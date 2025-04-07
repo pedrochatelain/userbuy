@@ -5,4 +5,8 @@ async function addProduct(product) {
     products.insertOne(product)
 }
 
-module.exports = { addProduct }
+async function getProducts() {
+    return getProductsCollection().find().toArray();
+}
+
+module.exports = { addProduct, getProducts }

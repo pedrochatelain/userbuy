@@ -18,4 +18,11 @@ router.post('/api/products', validateProduct, (req, res) => {
   res.status(200).json({ message: 'Product added successfully', product });
 });
 
+// GET /api/products
+router.get('/api/products', async (req, res) => {
+  const products = await service.getProducts()
+  console.log(products)
+  res.json(products)
+});
+
 module.exports = router;
