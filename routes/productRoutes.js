@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const validateProduct = require('../middlewares/productValidator');
+const { validateObjectId } = require('../middlewares/objectIdValidator')
 const { validationResult } = require('express-validator');
 const service = require('../services/productServices')
-const { ObjectId } = require('mongodb');
 
 // POST /api/products
 router.post('/api/products', validateProduct, (req, res) => {
@@ -27,13 +27,8 @@ router.get('/api/products', async (req, res) => {
 });
 
 // DELETE /api/products
-router.delete('/api/products/:id', async (req, res) => {
+router.delete('/api/products/:id', validateObjectId, async (req, res) => {
   const productId = req.params.id;
-
-  // Validate the ID format
-  if (!ObjectId.isValid(productId)) {
-    return res.status(400).send({ error: 'Invalid product ID format' });
-  }
 
   try {
     // Delete the document with the matching _id
