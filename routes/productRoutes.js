@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator');
 const service = require('../services/productServices')
 
 // POST /api/products
-router.post('/', validateProduct, (req, res) => {
+router.post('/api/products', validateProduct, (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {

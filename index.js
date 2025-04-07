@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const registerRoutes = require('./routes'); // points to routes/index.js
 const mongo = require('./datasources/mongo.js');
+const productsRoutes = require('./routes/productRoutes.js');
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -12,7 +12,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-registerRoutes(app);
+app.use(productsRoutes)
+
 mongo.connectDB()
 
 // Start server
