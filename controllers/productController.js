@@ -20,4 +20,9 @@ const addProduct = (req, res) => {
   }
 };
 
-module.exports = { addProduct };
+const getProducts = async (req, res) => {
+    const products = await service.getProducts()
+    res.json(products)
+}
+
+module.exports = { addProduct, getProducts };

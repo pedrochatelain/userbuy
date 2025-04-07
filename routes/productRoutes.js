@@ -9,11 +9,7 @@ const service = require('../services/productServices')
 router.post('/api/products', validateProduct, productController.addProduct);
 
 // GET /api/products
-router.get('/api/products', async (req, res) => {
-  const products = await service.getProducts()
-  console.log(products)
-  res.json(products)
-});
+router.get('/api/products', productController.getProducts);
 
 // DELETE /api/products
 router.delete('/api/products/:id', validateObjectId, async (req, res) => {
