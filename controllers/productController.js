@@ -25,4 +25,22 @@ const getProducts = async (req, res) => {
     res.json(products)
 }
 
-module.exports = { addProduct, getProducts };
+const deleteProduct = async (req, res) => {
+    const productId = req.params.id;
+
+    try {
+        // Delete the document with the matching _id
+        const result = await service.deleteProduct(productId);
+
+        if (result.deletedCount === 1) {
+        res.status(200).send({ message: 'Product deleted successfully' });
+        } else {
+        res.status(404).send({ error: 'Product not found' });
+        }
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
+}
+
+module.exports = { addProduct, getProducts, deleteProduct };
