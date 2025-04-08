@@ -46,14 +46,7 @@ async function getUser(userID) {
   }
 }
 
-function transformToObjectIds(productIds) {
-  return productIds.map(id => {
-    if (!ObjectId.isValid(id)) {
-      throw new Error(`Invalid MongoDB ObjectID: ${id}`);
-    }
-    return ObjectId.createFromHexString(id);
-  });
-}
+
 
 async function existsUser(userID) {
   const exists = await getUser(userID) != null
