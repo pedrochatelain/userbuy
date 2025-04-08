@@ -47,9 +47,9 @@ async function getUser(userID) {
 }
 
 
+
 async function existsUser(userID) {
   const exists = await getUser(userID) != null
-  console.log(exists) 
   return exists
 }
 

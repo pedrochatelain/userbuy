@@ -9,7 +9,6 @@ const addProduct = (req, res) => {
   }
 
   const product = req.body;
-  console.log('Received product:', product);
 
   try {
     service.addProduct(product);
