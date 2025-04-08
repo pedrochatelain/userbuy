@@ -1,12 +1,10 @@
-const { getPurchasesCollection, existsUser } = require('../datasources/mongo')
+const { getPurchasesCollection, existsUser, existsProducts } = require('../datasources/mongo')
 
 async function addPurchase(purchase) {
-    console.log(purchase)
     const purchasesCollection = getPurchasesCollection()
     const userID = purchase.userID
-    const productsIDs = purchase.productsIDs
-    // Check if the user and products exist in the database
-    const existsProducts = true
+    const productsID = purchase.productsID
+    // Check if the user exists in the database
     if (! await existsUser(userID)) {
         return {
             hasErrors: true,
@@ -14,10 +12,16 @@ async function addPurchase(purchase) {
             message: "User doesn't exist"
         }
     }
-    if (await existsUser(userID) && existsProducts) {
-        return purchasesCollection.insertOne(purchase)
+    // Check if the products exist in the database
+    const checkProducts = await existsProducts(productsID) 
+    if ( ! checkProducts.allExist ) {
+        return {
+            hasErrors: true,
+            statusCode: 404,
+            message: `These products ID were not found: ${checkProducts.missingIds}`,
+        }
     }
-    return null
+    return purchasesCollection.insertOne(purchase)
 }
 
 module.exports = { addPurchase }

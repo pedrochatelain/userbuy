@@ -46,11 +46,39 @@ async function getUser(userID) {
   }
 }
 
-
+function transformToObjectIds(productIds) {
+  return productIds.map(id => {
+    if (!ObjectId.isValid(id)) {
+      throw new Error(`Invalid MongoDB ObjectID: ${id}`);
+    }
+    return ObjectId.createFromHexString(id);
+  });
+}
 
 async function existsUser(userID) {
   const exists = await getUser(userID) != null
   return exists
+}
+
+async function existsProducts(productsIDs) {
+  // Deduplicate the IDs and convert them to ObjectId instances
+  const uniqueObjectIds = [...new Set(productsIDs)].map(id => new ObjectId(id));
+
+  // Query the collection to find the matching products
+  const existingProducts = await getProductsCollection().find({ _id: { $in: uniqueObjectIds } }).toArray();
+
+  // Get the IDs of the existing products as strings
+  const existingIds = existingProducts.map(product => product._id.toString());
+
+  // Identify the missing IDs
+  const missingIds = uniqueObjectIds
+    .filter(id => !existingIds.includes(id.toString()))
+    .map(id => id.toString());
+
+  return {
+    allExist: missingIds.length === 0, // True if all products exist
+    missingIds // Array of missing product IDs
+  };
 }
 
 module.exports = {
@@ -58,5 +86,6 @@ module.exports = {
   getProductsCollection,
   getUsersCollection,
   getPurchasesCollection,
-  existsUser
+  existsUser,
+  existsProducts
 };
