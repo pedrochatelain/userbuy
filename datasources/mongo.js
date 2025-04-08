@@ -20,7 +20,12 @@ function getProductsCollection() {
   return getDb().collection('products');
 }
 
+function getUsersCollection() {
+  return getDb().collection('users');
+}
+
 module.exports = {
   connectDB,
-  getProductsCollection
+  getProductsCollection,
+  getUsersCollection
 };

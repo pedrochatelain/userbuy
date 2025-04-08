@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 const mongo = require('./datasources/mongo.js');
 const productsRoutes = require('./routes/productRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -13,6 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(productsRoutes)
+app.use(userRoutes)
 
 mongo.connectDB()
 
