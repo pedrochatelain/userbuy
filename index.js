@@ -5,6 +5,7 @@ const mongo = require('./datasources/mongo.js');
 const productsRoutes = require('./routes/productRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
 const purchaseRoutes = require('./routes/purchaseRoutes.js');
+const loginRoutes = require('./routes/loginRoutes.js');
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 app.use(productsRoutes)
 app.use(userRoutes)
 app.use(purchaseRoutes)
+app.use(loginRoutes)
 
 mongo.connectDB()
 
