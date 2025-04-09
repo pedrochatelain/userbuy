@@ -46,7 +46,15 @@ async function getUser(userID) {
   }
 }
 
-
+async function getUserByUsername(username) {
+  const usersCollection = getUsersCollection();
+  try {
+    return await usersCollection.findOne({ username: username });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return null;
+  }
+}
 
 async function existsUser(userID) {
   const exists = await getUser(userID) != null
@@ -80,5 +88,6 @@ module.exports = {
   getUsersCollection,
   getPurchasesCollection,
   existsUser,
-  existsProducts
+  existsProducts,
+  getUserByUsername
 };
