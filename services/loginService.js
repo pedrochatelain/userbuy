@@ -2,26 +2,19 @@ const { getUserByUsername } = require('../datasources/mongo')
 const bcrypt = require('bcrypt');
 
 async function login(user) {
-    try {
-        const storedUser = await getUserByUsername(user.username)
-        const storedHashedPassword = storedUser.password
-        if (await match(user.password, storedHashedPassword)) {
-            return {
-                statusCode: 200,
-                message: "Login successful"
-            }    
-        } else {
-            return {
-                statusCode: 404,
-                message: "Wrong password. Try again"
-            }
-        }
-    } catch(err) {
+    const storedUser = await getUserByUsername(user.username)
+    if (storedUser == null) {
         return {
-            statusCode: 400,
-            message: err.message
+            userNotFound: true
         }
     }
+    const storedHashedPassword = storedUser.password
+    if ( ! await match(user.password, storedHashedPassword)) {
+        return {
+            wrongCredentials: true
+        }
+    }
+    return { success: true }
 }
 
 async function match(password, storedHashedPassword) {

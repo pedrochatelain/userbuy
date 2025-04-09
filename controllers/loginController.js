@@ -3,10 +3,15 @@ const service = require('../services/loginService');
 const login = async (req, res) => {
     const user = req.body;
     const loginResult = await service.login(user)
-    if (loginResult.successful) {
-        res.status(loginResult.statusCode).json({"message": `${loginResult.message}`})
+    if (loginResult.success) {
+        res.status(200).json({"message": "Login successful!"})            
     } else {
-        res.status(loginResult.statusCode).json({"message": `${loginResult.message}`})
+        if (loginResult.wrongCredentials) {
+            return res.status(400).json({"error": "Invalid credentials. Try again"})            
+        }
+        if (loginResult.userNotFound) {
+            return res.status(404).json({"error": "User not found"})            
+        }
     }
 }
 
