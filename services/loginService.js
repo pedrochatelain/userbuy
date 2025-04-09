@@ -25,15 +25,7 @@ async function login(user) {
 }
 
 async function match(password, storedHashedPassword) {
-    console.log("password", password)
-    console.log("storedHashedPassword", storedHashedPassword)
-    try {
-        const isMatch = await bcrypt.compare(password, storedHashedPassword);
-        return isMatch;
-    } catch (error) {
-        console.error("Error comparing passwords:", error);
-        throw error; // Propagate the error for the caller to handle
-    }
+    return await bcrypt.compare(password, storedHashedPassword);
 }
 
 module.exports = { login }
