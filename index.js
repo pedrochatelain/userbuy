@@ -20,6 +20,8 @@ app.use(userRoutes)
 app.use(purchaseRoutes)
 app.use(loginRoutes)
 
+require('dotenv').config();
+
 mongo.connectDB()
 
 // Start server
