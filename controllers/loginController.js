@@ -4,7 +4,7 @@ const login = async (req, res) => {
     const user = req.body;
     const loginResult = await service.login(user)
     if (loginResult.success) {
-        res.status(200).json({"message": "Login successful!"})            
+        res.status(200).json(loginResult)            
     } else {
         if (loginResult.wrongCredentials) {
             return res.status(400).json({"error": "Invalid credentials. Try again"})            
