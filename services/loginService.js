@@ -25,7 +25,7 @@ function generateToken(user) {
     const SECRET_KEY = process.env.JWT_SECRET;
     const payload = {
         username: user.username,
-        rol: user.rol,
+        role: user.role,
     };
     const options = {
         expiresIn: '1h', // Token expires in 1 hour
