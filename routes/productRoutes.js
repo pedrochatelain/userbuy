@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const validateProduct = require('../middlewares/productValidator');
+const validateProduct = require('../middlewares/validateProduct');
 const authorizeAdmin = require('../middlewares/authorizeAdmin')
 const { validateObjectId } = require('../middlewares/objectIdValidator')
 const productController = require('../controllers/productController')
