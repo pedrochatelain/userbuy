@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 
-function validateProductsIDs(req, res, next) {
+module.exports = (req, res, next) => {
     const productsID = req.body.productsID;
     const invalidIds = productsID.filter(id => {
         // Check if the ID is a string and a valid ObjectId
@@ -13,5 +13,3 @@ function validateProductsIDs(req, res, next) {
     }
     next()
 }
-
-module.exports = { validateProductsIDs }
