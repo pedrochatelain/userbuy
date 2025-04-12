@@ -1,11 +1,12 @@
-const { getPurchasesCollection, existsUser, existsProducts } = require('../datasources/mongo')
+const { getPurchasesCollection, existsProducts, canAffordProducts, getUser } = require('../datasources/mongo')
 
 async function addPurchase(purchase) {
     const purchasesCollection = getPurchasesCollection()
     const userID = purchase.userID
     const productsID = purchase.productsID
     // Check if the user exists in the database
-    if (! await existsUser(userID)) {
+    const user = await getUser(userID)
+    if (! user) {
         return {
             hasErrors: true,
             statusCode: 404,
@@ -21,6 +22,15 @@ async function addPurchase(purchase) {
             message: `These products ID were not found: ${checkProducts.missingIds}`,
         }
     }
+    const products = checkProducts.existingProducts
+    if ( ! canAffordProducts(user, products) ) {
+        return {
+            hasErrors: true,
+            statusCode: 400,
+            message: `Insufficient funds`,
+        }
+    }
+    // purchase.total = 
     return purchasesCollection.insertOne(purchase)
 }
 

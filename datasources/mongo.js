@@ -77,9 +77,17 @@ async function existsProducts(productsIDs) {
     .map(id => id.toString());
 
   return {
+    existingProducts,
     allExist: missingIds.length === 0, // True if all products exist
     missingIds // Array of missing product IDs
   };
+}
+
+function canAffordProducts(user, products) {
+  const totalCost = products.reduce((sum, product) => sum + product.price, 0);
+  const totalBalance = Object.values(user.balances).reduce((sum, balance) => sum + balance, 0);
+
+  return totalCost <= totalBalance;
 }
 
 module.exports = {
@@ -89,5 +97,7 @@ module.exports = {
   getPurchasesCollection,
   existsUser,
   existsProducts,
-  getUserByUsername
+  getUserByUsername,
+  canAffordProducts,
+  getUser
 };
