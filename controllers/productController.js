@@ -20,7 +20,7 @@ const addProduct = (req, res) => {
 };
 
 const getProducts = async (req, res) => {
-    const products = await service.getProducts()
+    const products = await service.getProducts(req.query)
     res.json(products)
 }
 
