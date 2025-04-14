@@ -24,6 +24,7 @@ async function login(user) {
 function generateToken(user) {
     const SECRET_KEY = process.env.JWT_SECRET;
     const payload = {
+        id: user._id,
         username: user.username,
         role: user.role,
     };
