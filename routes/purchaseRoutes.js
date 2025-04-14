@@ -9,4 +9,7 @@ router.post('/api/purchases', validateProductsIDs, purchaseController.addPurchas
 // GET /api/purchases
 router.get('/api/purchases', purchaseController.getPurchases)
 
+// GET /api/purchases/:userId
+router.get('/api/purchases/:userId', purchaseController.getPurchasesUser);
+
 module.exports = router;

@@ -94,6 +94,10 @@ async function getPurchases() {
   return getPurchasesCollection().find().toArray()
 }
 
+async function getPurchasesUser(userId) {
+  return getPurchasesCollection().find({userID: userId}).toArray()
+}
+
 module.exports = {
   connectDB,
   getProductsCollection,
@@ -104,5 +108,6 @@ module.exports = {
   getUserByUsername,
   canAffordProducts,
   getUser,
-  getPurchases
+  getPurchases,
+  getPurchasesUser
 };

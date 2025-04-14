@@ -39,4 +39,9 @@ async function getPurchases() {
     return datasource.getPurchases()
 }
 
-module.exports = { addPurchase, getPurchases }
+async function getPurchasesUser(userId) {
+    const datasource = require('../datasources/mongo')
+    return datasource.getPurchasesUser(userId)
+}
+
+module.exports = { addPurchase, getPurchases, getPurchasesUser }

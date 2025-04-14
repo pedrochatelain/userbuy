@@ -18,4 +18,14 @@ const getPurchases = async (req, res) => {
     }
 }
 
-module.exports = { addPurchase, getPurchases };
+const getPurchasesUser = async (req, res) => {
+    const userId = req.params.userId
+    try {
+        res.status(200).json(await service.getPurchasesUser(userId))
+    } catch(err) {
+        console.log(err)
+        res.status(500).json({message: "Error fetching user purchases"})
+    }
+}
+
+module.exports = { addPurchase, getPurchases, getPurchasesUser };
