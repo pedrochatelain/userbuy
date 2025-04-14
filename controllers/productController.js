@@ -31,8 +31,8 @@ const deleteProduct = async (req, res) => {
         // Delete the document with the matching _id
         const result = await service.deleteProduct(productId);
 
-        if (result.deletedCount === 1) {
-        res.status(200).send({ message: 'Product deleted successfully' });
+        if (result) {
+        res.status(200).send({ message: 'Product deleted successfully', product: result });
         } else {
         res.status(404).send({ error: 'Product not found' });
         }

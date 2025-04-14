@@ -17,9 +17,9 @@ async function getProducts(queryParams) {
     return getProductsCollection().find(query).toArray();
 }
 
-async function deleteProduct(productId) {
+function deleteProduct(productId) {
     const productsCollection = getProductsCollection()
-    return productsCollection.deleteOne({ _id: ObjectId.createFromHexString(productId) });
+    return productsCollection.findOneAndDelete({ _id: ObjectId.createFromHexString(productId) });
 }
 
 module.exports = { addProduct, getProducts, deleteProduct }
