@@ -1,6 +1,10 @@
 const { getUsersCollection } = require('../datasources/mongo')
 const bcrypt = require('bcrypt');
 
+async function getUsers() {
+    return getUsersCollection().find().toArray();
+}
+
 async function createUser(user) {
     try {
         user.password = await hashPassword(user.password)
@@ -25,4 +29,4 @@ async function hashPassword(password) {
     }
 }
 
-module.exports = { createUser }
+module.exports = { createUser, getUsers }
