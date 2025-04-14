@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET); // Replace with your JWT secret
     const userIdFromToken = decodedToken.id;
     if (userIdFromToken !== req.params.userId) {
-      return res.status(403).json({ error: 'Forbidden: You can only access your own purchases' });
+      return res.status(403).json({ error: 'Forbidden: You do not have permission to access this resource' });
     }
     next();
   } catch (error) {
