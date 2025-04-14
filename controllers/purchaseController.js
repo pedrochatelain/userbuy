@@ -10,4 +10,12 @@ const addPurchase = async (req, res) => {
     }
 }
 
-module.exports = { addPurchase };
+const getPurchases = async (req, res) => {
+    try {
+        res.status(200).json(await service.getPurchases())
+    } catch(err) {
+        res.status(500).json({message: "Error fetching purchases"})
+    }
+}
+
+module.exports = { addPurchase, getPurchases };

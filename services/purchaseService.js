@@ -34,4 +34,9 @@ async function addPurchase(purchase) {
     return purchasesCollection.insertOne(purchase)
 }
 
-module.exports = { addPurchase }
+async function getPurchases() {
+    const datasource = require('../datasources/mongo')
+    return datasource.getPurchases()
+}
+
+module.exports = { addPurchase, getPurchases }

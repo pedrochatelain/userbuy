@@ -90,6 +90,10 @@ function canAffordProducts(user, products) {
   return totalCost <= totalBalance;
 }
 
+async function getPurchases() {
+  return getPurchasesCollection().find().toArray()
+}
+
 module.exports = {
   connectDB,
   getProductsCollection,
@@ -99,5 +103,6 @@ module.exports = {
   existsProducts,
   getUserByUsername,
   canAffordProducts,
-  getUser
+  getUser,
+  getPurchases
 };
