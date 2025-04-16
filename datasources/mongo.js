@@ -68,6 +68,10 @@ async function existsProducts(productsIDs) {
   };
 }
 
+async function getProductsByIds(listOfId) {
+  return await getProductsCollection().find({ _id: { $in: listOfId } }).toArray();
+}
+
 function canAffordProducts(user, products) {
   const totalCost = products.reduce((sum, product) => sum + product.price, 0);
   const totalBalance = Object.values(user.balances).reduce((sum, balance) => sum + balance, 0);
@@ -93,5 +97,6 @@ module.exports = {
   canAffordProducts,
   getUser,
   getPurchases,
-  getPurchasesUser
+  getPurchasesUser,
+  getProductsByIds
 };
