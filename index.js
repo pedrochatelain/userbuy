@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const mongo = require('./datasources/mongo.js');
+const { connectDB } = require('./datasources/mongoConnection.js');
 const productsRoutes = require('./routes/productRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
 const purchaseRoutes = require('./routes/purchaseRoutes.js');
@@ -22,7 +22,19 @@ app.use(loginRoutes)
 
 require('dotenv').config();
 
-mongo.connectDB()
+
+async function connectToDatabase() {
+  try {
+    await connectDB();
+    console.log('Database initialized successfully');
+    // Add your server initialization code here
+  } catch (error) {
+    console.error('Failed to connect to the database:', error);
+    process.exit(1);
+  }
+}
+
+connectToDatabase();
 
 // Start server
 app.listen(port, () => {
