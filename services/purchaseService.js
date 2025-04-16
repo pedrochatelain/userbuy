@@ -1,4 +1,5 @@
 const { getPurchasesCollection, existsProducts, canAffordProducts, getUser } = require('../datasources/mongo')
+const datasource = require('../datasources/mongo')
 
 async function addPurchase(purchase) {
     const purchasesCollection = getPurchasesCollection()
@@ -32,6 +33,22 @@ async function addPurchase(purchase) {
     }
     // purchase.total = 
     return purchasesCollection.insertOne(purchase)
+}
+
+async function checkAllProductsExist(productsIds) {
+    // Deduplicate the IDs and convert them to ObjectId instances
+    const uniqueObjectIds = [...new Set(productsIds)].map(id => new ObjectId(id));
+    // Query the collection to find the matching products
+    const existingProducts = datasource.getProductsByIds(uniqueObjectIds)
+    // Get the IDs of the existing products as strings
+    const existingIds = existingProducts.map(product => product._id.toString());
+    // Identify the missing IDs
+    const missingIds = uniqueObjectIds
+    .filter(id => !existingIds.includes(id.toString()))
+    .map(id => id.toString());
+    if ( ! missingIds.length === 0) {
+        throw Error(`These products ID were not found: ${missingIds}`)
+    }
 }
 
 async function getPurchases() {
