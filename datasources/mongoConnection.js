@@ -1,13 +1,12 @@
 const { MongoClient } = require('mongodb');
-const config = require('./config');
 
 let dbInstance = null;
 
 async function connectDB() {
-  const client = new MongoClient(config.mongoUri);
+  const client = new MongoClient('mongodb://localhost:27017');
   await client.connect();
-  dbInstance = client.db(config.databaseName);
-  console.log(`Connected to MongoDB: ${config.databaseName}`);
+  dbInstance = client.db('mydatabase');
+  console.log(`Connected to MongoDB: mydatabase`);
 }
 
 function getDb() {
