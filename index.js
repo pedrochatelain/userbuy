@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const { connectDB } = require('./datasources/mongoConnection.js');
-const productsRoutes = require('./routes/productRoutes.js');
-const userRoutes = require('./routes/userRoutes.js');
-const purchaseRoutes = require('./routes/purchaseRoutes.js');
-const loginRoutes = require('./routes/loginRoutes.js');
+const { connectDB } = require('./src/datasources/mongoConnection');
+const productsRoutes = require('./src/routes/productRoutes.js');
+const userRoutes = require('./src/routes/userRoutes.js');
+const purchaseRoutes = require('./src/routes/purchaseRoutes.js');
+const loginRoutes = require('./src/routes/loginRoutes.js');
 
 // Middleware to parse JSON
 app.use(express.json());
