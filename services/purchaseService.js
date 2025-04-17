@@ -1,5 +1,5 @@
-const { getPurchasesCollection, existsProducts, canAffordProducts, getUser } = require('../datasources/mongo')
-const datasource = require('../datasources/mongo')
+const { getPurchasesCollection, existsProducts, canAffordProducts, getUser } = require('../datasources/mongoDatasource')
+const datasource = require('../datasources/mongoDatasource')
 const { ObjectId } = require('mongodb');
 const { UserNotFound, ProductsNotFound, InsufficientFunds } = require('../errors/customErrors')
 
@@ -45,12 +45,12 @@ async function checkProductsExistence(productsIds) {
 }
 
 async function getPurchases() {
-    const datasource = require('../datasources/mongo')
+    const datasource = require('../datasources/mongoDatasource')
     return datasource.getPurchases()
 }
 
 async function getPurchasesUser(userId) {
-    const datasource = require('../datasources/mongo')
+    const datasource = require('../datasources/mongoDatasource')
     return datasource.getPurchasesUser(userId)
 }
 

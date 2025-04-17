@@ -1,4 +1,4 @@
-const { getProductsCollection } = require('../datasources/mongo')
+const { getProductsCollection } = require('../datasources/mongoDatasource')
 const { ObjectId } = require('mongodb');
 
 async function addProduct(product) {

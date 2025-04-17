@@ -1,4 +1,4 @@
-const { getUserByUsername } = require('../datasources/mongo')
+const { getUserByUsername } = require('../datasources/mongoDatasource')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
