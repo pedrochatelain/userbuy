@@ -1,5 +1,7 @@
 const { getPurchasesCollection, existsProducts, canAffordProducts, getUser } = require('../datasources/mongo')
 const datasource = require('../datasources/mongo')
+const { ObjectId } = require('mongodb');
+const { UserNotFound, ProductsNotFound, InsufficientFunds } = require('../errors/customErrors')
 
 async function addPurchase(purchase) {
     const purchasesCollection = getPurchasesCollection()
@@ -8,47 +10,38 @@ async function addPurchase(purchase) {
     // Check if the user exists in the database
     const user = await getUser(userID)
     if (! user) {
-        return {
-            hasErrors: true,
-            statusCode: 404,
-            message: "User doesn't exist"
-        }
+        throw new UserNotFound()
     }
-    // Check if the products exist in the database
-    const checkProducts = await existsProducts(productsID) 
-    if ( ! checkProducts.allExist ) {
-        return {
-            hasErrors: true,
-            statusCode: 404,
-            message: `These products ID were not found: ${checkProducts.missingIds}`,
-        }
-    }
+    // Check if all products exist in the database
+    const checkProducts = await checkProductsExistence(productsID)
+    if ( ! checkProducts.allExist) {
+        throw new ProductsNotFound(checkProducts.missingIds)
+    } 
+    // Check if user has sufficient funds to purchase the products
     const products = checkProducts.existingProducts
     if ( ! canAffordProducts(user, products) ) {
-        return {
-            hasErrors: true,
-            statusCode: 400,
-            message: `Insufficient funds`,
-        }
+        throw new InsufficientFunds()
     }
     // purchase.total = 
     return purchasesCollection.insertOne(purchase)
 }
 
-async function checkAllProductsExist(productsIds) {
+async function checkProductsExistence(productsIds) {
     // Deduplicate the IDs and convert them to ObjectId instances
     const uniqueObjectIds = [...new Set(productsIds)].map(id => new ObjectId(id));
     // Query the collection to find the matching products
-    const existingProducts = datasource.getProductsByIds(uniqueObjectIds)
+    const existingProducts = await datasource.getProductsByIds(uniqueObjectIds);
     // Get the IDs of the existing products as strings
     const existingIds = existingProducts.map(product => product._id.toString());
     // Identify the missing IDs
     const missingIds = uniqueObjectIds
-    .filter(id => !existingIds.includes(id.toString()))
-    .map(id => id.toString());
-    if ( ! missingIds.length === 0) {
-        throw Error(`These products ID were not found: ${missingIds}`)
-    }
+        .filter(id => !existingIds.includes(id.toString()))
+        .map(id => id.toString());
+    return {
+        allExist: missingIds.length === 0,
+        missingIds,
+        existingProducts
+    };
 }
 
 async function getPurchases() {
