@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const service = require('../services/productServices'); // Adjust the path as needed
 
-const addProduct = (req, res) => {
+const addProduct = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -11,11 +11,10 @@ const addProduct = (req, res) => {
   const product = req.body;
 
   try {
-    service.addProduct(product);
+    await service.addProduct(product);
     res.status(200).json({ message: 'Product added successfully', product });
-  } catch (error) {
-    console.error('Error adding product:', error);
-    res.status(500).json({ message: 'Internal server error' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 

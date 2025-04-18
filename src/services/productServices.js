@@ -1,9 +1,13 @@
 const { getProductsCollection } = require('../datasources/mongoDatasource')
 const { ObjectId } = require('mongodb');
+const datasource = require('../datasources/mongoDatasource')
 
 async function addProduct(product) {
-    const products = getProductsCollection()
-    products.insertOne(product)
+    try {
+        await datasource.addProduct(product)
+    } catch(err) {
+        throw err
+    }
 }
 
 async function getProducts(queryParams) {
