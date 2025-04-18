@@ -13,6 +13,14 @@ function getPurchasesCollection() {
   return getDb().collection('purchases');
 }
 
+async function addProduct(product) {
+  try {
+    await getProductsCollection().insertOne(product)    
+  } catch(err) {
+    throw err
+  }
+}
+
 async function getUser(userID) {
   const usersCollection = getUsersCollection();
 
@@ -98,5 +106,6 @@ module.exports = {
   getUser,
   getPurchases,
   getPurchasesUser,
-  getProductsByIds
+  getProductsByIds,
+  addProduct
 };
