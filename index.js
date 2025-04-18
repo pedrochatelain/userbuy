@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const port = 3000;
 const { connectDB } = require('./src/datasources/mongoConnection');
 const productsRoutes = require('./src/routes/productRoutes.js');
 const userRoutes = require('./src/routes/userRoutes.js');
@@ -37,6 +36,6 @@ async function connectToDatabase() {
 connectToDatabase();
 
 // Start server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
