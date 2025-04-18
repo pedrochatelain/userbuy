@@ -1,16 +1,8 @@
-const { validationResult } = require('express-validator');
 const service = require('../services/productServices'); // Adjust the path as needed
 
 const addProduct = async (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
-  const product = req.body;
-
   try {
+    const product = req.body;
     await service.addProduct(product);
     res.status(200).json({ message: 'Product added successfully', product });
   } catch (err) {
