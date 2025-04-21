@@ -23,4 +23,10 @@ class InsufficientFunds extends CustomError {
     }
 }
 
-module.exports = { UserNotFound, ProductsNotFound, InsufficientFunds }
+class InvalidCredentials extends CustomError {
+    constructor() {
+        super("Invalid credentials. Try again", 400);
+    }
+}
+
+module.exports = { UserNotFound, ProductsNotFound, InsufficientFunds, InvalidCredentials }
