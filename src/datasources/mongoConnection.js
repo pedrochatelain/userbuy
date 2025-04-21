@@ -5,8 +5,8 @@ let dbInstance = null;
 async function connectDB() {
   const client = new MongoClient(process.env.MONGO_URI);
   await client.connect();
-  dbInstance = client.db('mydatabase');
-  console.log(`Connected to MongoDB: mydatabase`);
+  dbInstance = client.db(process.env.DATABASE_NAME);
+  console.log(`Connected to MongoDB: ${process.env.DATABASE_NAME}`);
 }
 
 function getDb() {
