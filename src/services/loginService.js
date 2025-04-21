@@ -1,19 +1,16 @@
 const { getUserByUsername } = require('../datasources/mongoDatasource')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { UserNotFound, InvalidCredentials } = require('../errors/customErrors')
 
 async function login(user) {
     const storedUser = await getUserByUsername(user.username)
     if (storedUser == null) {
-        return {
-            userNotFound: true
-        }
+        throw new UserNotFound()
     }
     const storedHashedPassword = storedUser.password
     if ( ! await match(user.password, storedHashedPassword)) {
-        return {
-            wrongCredentials: true
-        }
+        throw new InvalidCredentials()
     }
     return { 
         success: true,
