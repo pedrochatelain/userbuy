@@ -5,9 +5,13 @@ const productsRoutes = require('./src/routes/productRoutes.js');
 const userRoutes = require('./src/routes/userRoutes.js');
 const purchaseRoutes = require('./src/routes/purchaseRoutes.js');
 const loginRoutes = require('./src/routes/loginRoutes.js');
+const cors = require('cors');
 
 // Middleware to parse JSON
 app.use(express.json());
+
+// Enable CORS
+app.use(cors());
 
 // Basic route
 app.get('/', (req, res) => {
