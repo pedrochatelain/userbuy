@@ -22,8 +22,12 @@ async function addPurchase(purchase) {
     if ( ! canAffordProducts(user, products) ) {
         throw new InsufficientFunds()
     }
-    // purchase.total = 
-    return purchasesCollection.insertOne(purchase)
+    return purchasesCollection.insertOne(
+        {
+            userID: purchase.userID,
+            products: products
+        }
+    )
 }
 
 async function checkProductsExistence(productsIds) {
