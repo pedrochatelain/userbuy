@@ -81,10 +81,13 @@ async function getProductsByIds(listOfId) {
 }
 
 function canAffordProducts(user, products) {
-  const totalCost = products.reduce((sum, product) => sum + product.price, 0);
-  const totalBalance = Object.values(user.balances).reduce((sum, balance) => sum + balance, 0);
-
-  return totalCost <= totalBalance;
+  try {
+    const totalCost = products.reduce((sum, product) => sum + product.price, 0);
+    const totalBalance = Object.values(user.balances).reduce((sum, balance) => sum + balance, 0);
+    return totalCost <= totalBalance;
+  } catch (err) {
+      return false
+  }
 }
 
 async function getPurchases() {
