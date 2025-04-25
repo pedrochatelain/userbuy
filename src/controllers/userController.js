@@ -24,4 +24,19 @@ const getUsers = async (req, res) => {
     }
 }
 
-module.exports = { createUser, getUsers };
+const editRoles = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const userId = req.params.userId
+    const roles = req.body.role
+    try {
+        const user = await service.editRoles(userId, roles)
+        res.status(200).json({message: "Role updated successfully", user})
+    } catch(err) {
+        res.status(err.statusCode).json({message: err.message})
+    }
+}
+
+module.exports = { createUser, getUsers, editRoles };

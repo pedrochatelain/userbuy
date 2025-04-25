@@ -1,5 +1,6 @@
 const { getDb } = require('./mongoConnection');
 const { ObjectId } = require('mongodb');
+const { UserNotFound } = require('../errors/customErrors')
 
 function getProductsCollection() {
   return getDb().collection('products');
@@ -98,6 +99,17 @@ async function getPurchasesUser(userId) {
   return getPurchasesCollection().find({userID: userId}).toArray()
 }
 
+async function updateUserRole(userId, roles) {
+  const result = await getUsersCollection().updateOne(
+    { _id: new ObjectId(userId) },
+    { $set: { role: roles } }
+  )
+  if (result.matchedCount === 0) {
+    throw new UserNotFound()
+  }
+  return result
+}
+
 module.exports = {
   getProductsCollection,
   getUsersCollection,
@@ -110,5 +122,6 @@ module.exports = {
   getPurchases,
   getPurchasesUser,
   getProductsByIds,
-  addProduct
+  addProduct,
+  updateUserRole
 };

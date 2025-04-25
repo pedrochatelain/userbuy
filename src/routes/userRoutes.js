@@ -9,4 +9,7 @@ router.post('/api/users', validateUser, userController.createUser);
 // GET /api/users
 router.get('/api/users', userController.getUsers);
 
+// PATCH /api/users/:userId/roles
+router.patch('/api/users/:userId/roles', userController.editRoles)
+
 module.exports = router;

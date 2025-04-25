@@ -1,5 +1,6 @@
 const { getUsersCollection } = require('../datasources/mongoDatasource')
 const bcrypt = require('bcrypt');
+const datasource = require('../datasources/mongoDatasource')
 
 async function getUsers() {
     return getUsersCollection().find().toArray();
@@ -29,4 +30,14 @@ async function hashPassword(password) {
     }
 }
 
-module.exports = { createUser, getUsers }
+async function editRoles(userId, roles) {
+    try {
+        await datasource.updateUserRole(userId, roles)
+        return datasource.getUser(userId)
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
+}
+
+module.exports = { createUser, getUsers, editRoles }
