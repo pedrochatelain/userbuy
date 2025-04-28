@@ -84,7 +84,7 @@ async function getProductsByIds(listOfId) {
 function canAffordProducts(user, products) {
   try {
     const totalCost = products.reduce((sum, product) => sum + product.price, 0);
-    const totalBalance = Object.values(user.balances).reduce((sum, balance) => sum + balance, 0);
+    const totalBalance = user.balances
     return totalCost <= totalBalance;
   } catch (err) {
       return false
@@ -110,6 +110,38 @@ async function updateUserRole(userId, roles) {
   return result
 }
 
+async function purchase(userID, products, totalCost) {
+  console.log("userID", userID)
+  const purchasesCollection = getPurchasesCollection();
+  const session = purchasesCollection.client.startSession();
+
+  try {
+      session.startTransaction();
+      // Insert the purchase
+      await purchasesCollection.insertOne({ userID: new ObjectId(userID), products }, { session });
+
+      // Update user balance
+      await updateUserBalances(new ObjectId(userID), totalCost, session);
+
+      await session.commitTransaction();
+  } catch (error) {
+      await session.abortTransaction();
+      throw error;
+  } finally {
+      session.endSession();
+  }
+}
+
+async function updateUserBalances(userID, totalCost, session) {
+  const usersCollection = getUsersCollection();
+  await usersCollection.updateOne(
+      { _id: userID },
+      { $inc: { balances: -totalCost } }, // Assuming `balances` is a field in the user document
+      { session }
+  );
+}
+
+
 module.exports = {
   getProductsCollection,
   getUsersCollection,
@@ -123,5 +155,6 @@ module.exports = {
   getPurchasesUser,
   getProductsByIds,
   addProduct,
-  updateUserRole
+  updateUserRole,
+  purchase
 };

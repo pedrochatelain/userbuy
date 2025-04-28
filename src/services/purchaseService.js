@@ -4,7 +4,6 @@ const { ObjectId } = require('mongodb');
 const { UserNotFound, ProductsNotFound, InsufficientFunds } = require('../errors/customErrors')
 
 async function addPurchase(purchase) {
-    const purchasesCollection = getPurchasesCollection()
     const userID = purchase.userID
     const productsID = purchase.productsID
     // Check if the user exists in the database
@@ -22,12 +21,16 @@ async function addPurchase(purchase) {
     if ( ! canAffordProducts(user, products) ) {
         throw new InsufficientFunds()
     }
-    return purchasesCollection.insertOne(
-        {
-            userID: purchase.userID,
-            products: products
-        }
-    )
+    const totalCost = getTotalCost(products)
+    await datasource.purchase(userID, products, totalCost)
+}
+
+function getTotalCost(products) {
+    let total = 0
+    products.forEach(prod => {
+        total += prod.price
+    });
+    return total
 }
 
 async function checkProductsExistence(productsIds) {
