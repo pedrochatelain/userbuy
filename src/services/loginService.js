@@ -1,5 +1,5 @@
 const { getUserByUsername } = require('../datasources/mongoDatasource')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { UserNotFound, InvalidCredentials } = require('../errors/customErrors')
 

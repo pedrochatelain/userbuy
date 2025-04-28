@@ -1,5 +1,5 @@
 const { getUsersCollection } = require('../datasources/mongoDatasource')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const datasource = require('../datasources/mongoDatasource')
 
 async function getUsers() {
