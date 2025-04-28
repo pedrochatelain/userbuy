@@ -96,7 +96,7 @@ async function getPurchases() {
 }
 
 async function getPurchasesUser(userId) {
-  return getPurchasesCollection().find({userID: userId}).toArray()
+  return getPurchasesCollection().find({userID: new ObjectId(userId)}).toArray()
 }
 
 async function updateUserRole(userId, roles) {
