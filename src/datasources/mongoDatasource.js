@@ -111,19 +111,29 @@ async function updateUserRole(userId, roles) {
 }
 
 async function purchase(userID, products, totalCost) {
-  console.log("userID", userID)
   const purchasesCollection = getPurchasesCollection();
   const session = purchasesCollection.client.startSession();
 
   try {
       session.startTransaction();
-      // Insert the purchase
-      await purchasesCollection.insertOne({ userID: new ObjectId(userID), products }, { session });
+      
+      // Create the purchase document
+      const purchaseDoc = {
+          userID: new ObjectId(userID),
+          products,
+          purchaseDate: new Date(),
+      };
+
+      // Insert the purchase and capture the inserted ID
+      const insertResult = await purchasesCollection.insertOne(purchaseDoc, { session });
 
       // Update user balance
       await updateUserBalances(new ObjectId(userID), totalCost, session);
 
       await session.commitTransaction();
+
+      // Return the full purchase document (fetch it from the database to ensure consistency)
+      return await purchasesCollection.findOne({ _id: insertResult.insertedId });
   } catch (error) {
       await session.abortTransaction();
       throw error;

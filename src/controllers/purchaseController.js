@@ -3,9 +3,10 @@ const service = require('../services/purchaseService');
 const addPurchase = async (req, res) => {
     const purchase = req.body;
     try {
-        await service.addPurchase(purchase)
-        res.status(201).json({"message": "added purchase", purchase})
+        const result = await service.addPurchase(purchase)
+        res.status(201).json({"message": "added purchase", "purchase": result})
     } catch (err) {
+        console.log(err)
         res.status(err.statusCode).json({"error": err.message})
     }
 }

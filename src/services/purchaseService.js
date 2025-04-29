@@ -22,7 +22,7 @@ async function addPurchase(purchase) {
         throw new InsufficientFunds()
     }
     const totalCost = getTotalCost(products)
-    await datasource.purchase(userID, products, totalCost)
+    return await datasource.purchase(userID, products, totalCost)
 }
 
 function getTotalCost(products) {
