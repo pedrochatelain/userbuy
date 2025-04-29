@@ -7,7 +7,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      MONGO_URI: mongodb://db:27017
+      MONGO_URI: mongodb://db:27019
     depends_on:
       - db
 
@@ -15,9 +15,14 @@ services:
     image: mongo:6
     container_name: mongodb
     ports:
-      - "27017:27017"
+      - "27019:27019"
     volumes:
       - mongodb_data:/data/db
+    command: >
+      bash -c "mongod --port 27019 --replSet rs0 --bind_ip_all &
+      sleep 5 &&
+      mongosh --port 27019 --eval 'rs.initiate()' &&
+      tail -f /dev/null"
 
 volumes:
   mongodb_data:
