@@ -14,4 +14,7 @@ router.get('/api/users', userController.getUsers);
 // PATCH /api/users/:userId/roles
 router.patch('/api/users/:userId/roles', validateRoleUpdate, handleValidationErrors, userController.editRoles)
 
+// PATCH /api/users/:userId/balances
+router.patch('/api/users/:userId/balances', userController.addToBalances)
+
 module.exports = router;

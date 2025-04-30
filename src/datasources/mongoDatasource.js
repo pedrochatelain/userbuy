@@ -151,6 +151,19 @@ async function updateUserBalances(userID, totalCost, session) {
   );
 }
 
+async function addToBalances(userId, amount, session = null) {
+  try {
+    const usersCollection = getUsersCollection();
+    const options = session ? { session } : {};
+    await usersCollection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $inc: { balances: amount } },
+        options
+    );
+  } catch (err) {
+    throw err
+  }
+}
 
 module.exports = {
   getProductsCollection,
@@ -166,5 +179,6 @@ module.exports = {
   getProductsByIds,
   addProduct,
   updateUserRole,
-  purchase
+  purchase,
+  addToBalances
 };

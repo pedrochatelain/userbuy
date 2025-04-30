@@ -39,4 +39,17 @@ const editRoles = async (req, res) => {
     }
 }
 
-module.exports = { createUser, getUsers, editRoles };
+const addToBalances = async (req, res) => {
+    try {
+        const userId = req.params.userId
+        const amount = req.body.amount
+        const response = await service.addToBalances(userId, amount)
+        res.status(200).json({message: "User balances updated successfully", response})
+    } catch (err) {
+        if ( ! err.statusCode)
+            err.statusCode = 500
+        res.status(err.statusCode).json({message: err.message})
+    }
+}
+
+module.exports = { createUser, getUsers, editRoles, addToBalances };

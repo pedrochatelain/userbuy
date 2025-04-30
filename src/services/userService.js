@@ -1,6 +1,7 @@
 const { getUsersCollection } = require('../datasources/mongoDatasource')
 const bcrypt = require('bcryptjs');
-const datasource = require('../datasources/mongoDatasource')
+const datasource = require('../datasources/mongoDatasource');
+const { UserNotFound } = require('../errors/customErrors');
 
 async function getUsers() {
     return getUsersCollection().find().toArray();
@@ -40,4 +41,16 @@ async function editRoles(userId, roles) {
     }
 }
 
-module.exports = { createUser, getUsers, editRoles }
+async function addToBalances(userId, amount) {
+    try {
+        if ( ! await datasource.existsUser(userId)) {
+            throw new UserNotFound()
+        }
+        await datasource.addToBalances(userId, amount)
+        return datasource.getUser(userId)
+    } catch (err) {
+        throw err
+    }
+}
+
+module.exports = { createUser, getUsers, editRoles, addToBalances }
