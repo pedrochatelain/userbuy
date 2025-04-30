@@ -128,7 +128,7 @@ async function purchase(userID, products, totalCost) {
       const insertResult = await purchasesCollection.insertOne(purchaseDoc, { session });
 
       // Update user balance
-      await updateUserBalances(new ObjectId(userID), totalCost, session);
+      await addToBalances(userID, -totalCost, session);
 
       await session.commitTransaction();
 
@@ -140,15 +140,6 @@ async function purchase(userID, products, totalCost) {
   } finally {
       session.endSession();
   }
-}
-
-async function updateUserBalances(userID, totalCost, session) {
-  const usersCollection = getUsersCollection();
-  await usersCollection.updateOne(
-      { _id: userID },
-      { $inc: { balances: -totalCost } }, // Assuming `balances` is a field in the user document
-      { session }
-  );
 }
 
 async function addToBalances(userId, amount, session = null) {
