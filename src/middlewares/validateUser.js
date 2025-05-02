@@ -1,25 +1,26 @@
-const { body } = require('express-validator');
-const ROLES = require('../config/roles');
-const validRoles = Object.values(ROLES);
+const { body, validationResult } = require('express-validator');
 
 const validateUser = [
   // Validate username (mandatory)
   body('username')
     .notEmpty().withMessage('username is required'),
-  
+
   // Validate password (mandatory)
   body('password')
     .notEmpty().withMessage('password is required'),
-  
-  // Validate role (optional)
-  body('role')
-    .optional() // Make the role field optional
-    .customSanitizer(value => value ? value.toUpperCase() : value) // Convert to uppercase if provided
-    .isIn(validRoles).withMessage(`role must be one of the following: ${validRoles.join(', ')}`),
-  
-  // Validate balances (optional and must be an object)
-  body('balances')
-    .optional() // Make balances optional
+
+  // Middleware to check for extra fields
+  (req, res, next) => {
+    const allowedFields = ['username', 'password'];
+    const extraFields = Object.keys(req.body).filter(field => !allowedFields.includes(field));
+
+    if (extraFields.length > 0) {
+      return res.status(400).json({
+        error: `Invalid fields: ${extraFields.join(', ')}`,
+      });
+    }
+    next();
+  }
 ];
 
 module.exports = validateUser;
