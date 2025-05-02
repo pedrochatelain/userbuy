@@ -156,6 +156,20 @@ async function addToBalances(userId, amount, session = null) {
   }
 }
 
+async function updateProduct(idProduct, productUpdate) {
+  try {
+      // Perform the update and return the updated product
+      return await getProductsCollection().findOneAndUpdate(
+          { _id: new ObjectId(idProduct) }, // Filter by product ID
+          { $set: productUpdate },         // Update with the provided fields
+          { returnDocument: 'after' }      // Return the updated document
+      );
+  } catch (err) {
+      console.error(`Failed to update product: ${err}`);
+      throw err;
+  }
+}
+
 module.exports = {
   getProductsCollection,
   getUsersCollection,
@@ -171,5 +185,6 @@ module.exports = {
   addProduct,
   updateUserRole,
   purchase,
-  addToBalances
+  addToBalances,
+  updateProduct
 };

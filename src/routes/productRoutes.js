@@ -8,6 +8,9 @@ const productController = require('../controllers/productController')
 // POST /api/products
 router.post('/api/products', validateProduct, productController.addProduct);
 
+// Update product
+router.put('/api/products/:idProduct', validateProduct, productController.updateProduct);
+
 // GET /api/products
 router.get('/api/products', productController.getProducts);
 
