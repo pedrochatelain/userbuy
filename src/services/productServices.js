@@ -19,6 +19,9 @@ async function getProducts(queryParams) {
 
 async function deleteProduct(idProduct) {
     try {
+        const product = await datasource.getProductById(idProduct)
+        if ( ! product)
+            throw new ProductsNotFound(idProduct)
         const deletedProduct = await datasource.deleteProduct(idProduct)
         if ( ! deletedProduct) 
             throw new ProductsNotFound(idProduct)
