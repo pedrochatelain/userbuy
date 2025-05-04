@@ -181,6 +181,10 @@ async function getProducts(queryParams) {
     return getProductsCollection().find(query).toArray();
 }
 
+async function deleteProduct(idProduct) {
+  return await getProductsCollection().findOneAndDelete({ _id: ObjectId.createFromHexString(idProduct) });
+}
+
 module.exports = {
   getProductsCollection,
   getUsersCollection,
@@ -198,5 +202,6 @@ module.exports = {
   purchase,
   addToBalances,
   updateProduct,
-  getProducts
+  getProducts,
+  deleteProduct
 };

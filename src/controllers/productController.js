@@ -22,21 +22,14 @@ const getProducts = async (req, res) => {
 }
 
 const deleteProduct = async (req, res) => {
-    const productId = req.params.id;
-
     try {
-        // Delete the document with the matching _id
-        const result = await service.deleteProduct(productId);
-
-        if (result) {
-        res.status(200).send({ message: 'Product deleted successfully', product: result });
-        } else {
-        res.status(404).send({ error: 'Product not found' });
-        }
-    } catch (error) {
-        console.error('Error deleting product:', error);
-        res.status(500).send({ error: 'Internal server error' });
-    }
+      const product = await service.deleteProduct(req.params.id)
+      res.status(200).json({ message: "Product deleted successfully", product })
+  } catch (err) {
+    if ( ! err.statusCode)
+      err.statusCode = 500
+    res.status(err.statusCode).json({ error: err.message })
+  }
 }
 
 const updateProduct = async (req, res) => {

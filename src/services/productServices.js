@@ -1,5 +1,3 @@
-const { getProductsCollection } = require('../datasources/mongoDatasource')
-const { ObjectId } = require('mongodb');
 const datasource = require('../datasources/mongoDatasource')
 const { ProductsNotFound } = require('../errors/customErrors') 
 
@@ -19,9 +17,15 @@ async function getProducts(queryParams) {
     }
 }
 
-function deleteProduct(productId) {
-    const productsCollection = getProductsCollection()
-    return productsCollection.findOneAndDelete({ _id: ObjectId.createFromHexString(productId) });
+async function deleteProduct(idProduct) {
+    try {
+        const deletedProduct = await datasource.deleteProduct(idProduct)
+        if ( ! deletedProduct) 
+            throw new ProductsNotFound(idProduct)
+        return deletedProduct
+    } catch (err) {
+        throw err
+    }
 }
 
 async function updateProduct(idProduct, productUpdate) {
