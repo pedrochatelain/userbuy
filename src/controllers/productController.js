@@ -11,8 +11,14 @@ const addProduct = async (req, res) => {
 };
 
 const getProducts = async (req, res) => {
+  try {
     const products = await service.getProducts(req.query)
-    res.json(products)
+    res.status(200).json({ numberOfProducts: products.length, products })
+  } catch (err) {
+    if ( ! err.statusCode)
+      err.statusCode = 500
+    res.status(err.statusCode).json({ error: err.message })
+  }
 }
 
 const deleteProduct = async (req, res) => {

@@ -12,14 +12,11 @@ async function addProduct(product) {
 }
 
 async function getProducts(queryParams) {
-    const query = {};
-    for (const key in queryParams) {
-        if (queryParams[key]) {
-            query[key] = isNaN(queryParams[key]) ? queryParams[key] : parseFloat(queryParams[key]);
-        }
+    try {
+        return await datasource.getProducts(queryParams)
+    } catch (err) {
+        throw err
     }
-    // If query is empty, find({}) fetches all documents
-    return getProductsCollection().find(query).toArray();
 }
 
 function deleteProduct(productId) {
