@@ -1,12 +1,12 @@
 const service = require('../services/purchaseService');
 
 const addPurchase = async (req, res) => {
-    const purchase = req.body;
     try {
-        const result = await service.addPurchase(purchase)
+        const result = await service.addPurchase(req.body)
         res.status(201).json({"message": "added purchase", "purchase": result})
     } catch (err) {
-        console.log(err)
+        if ( ! err.statusCode)
+            err.statusCode = 500
         res.status(err.statusCode).json({"error": err.message})
     }
 }

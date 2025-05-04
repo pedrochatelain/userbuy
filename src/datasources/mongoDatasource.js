@@ -81,6 +81,17 @@ async function getProductsByIds(listOfId) {
   return await getProductsCollection().find({ _id: { $in: listOfId } }).toArray();
 }
 
+async function getProductById(id) {
+  try {
+    if (!ObjectId.isValid(id)) {
+      return null;
+    }
+    return await getProductsCollection().findOne({ _id: ObjectId.createFromHexString(id) });
+  } catch (err) {
+    return null
+  }
+}
+
 function canAffordProducts(user, products) {
   try {
     const totalCost = products.reduce((sum, product) => sum + product.price, 0);
@@ -110,7 +121,7 @@ async function updateUserRole(userId, roles) {
   return result
 }
 
-async function purchase(userID, products, totalCost) {
+async function purchase(userID, product) {
   const purchasesCollection = getPurchasesCollection();
   const session = purchasesCollection.client.startSession();
 
@@ -120,7 +131,7 @@ async function purchase(userID, products, totalCost) {
       // Create the purchase document
       const purchaseDoc = {
           userID: new ObjectId(userID),
-          products,
+          product,
           purchaseDate: new Date(),
       };
 
@@ -128,7 +139,7 @@ async function purchase(userID, products, totalCost) {
       const insertResult = await purchasesCollection.insertOne(purchaseDoc, { session });
 
       // Update user balance
-      await addToBalances(userID, -totalCost, session);
+      await addToBalances(userID, -product.price, session);
 
       await session.commitTransaction();
 
@@ -203,5 +214,6 @@ module.exports = {
   addToBalances,
   updateProduct,
   getProducts,
-  deleteProduct
+  deleteProduct,
+  getProductById
 };
