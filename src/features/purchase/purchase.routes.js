@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const purchaseController = require('../controllers/purchaseController')
-const validateUserAccess = require('../middlewares/validateUserAccess')
+const purchaseController = require('./purchase.controller')
+const validateUserAccess = require('../../middlewares/validateUserAccess')
 
 // POST /api/purchases
 router.post('/api/purchases', purchaseController.addPurchase);

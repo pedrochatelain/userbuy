@@ -1,6 +1,5 @@
-const datasource = require('../datasources/mongoDatasource')
-const { ObjectId } = require('mongodb');
-const { UserNotFound, ProductsNotFound, InsufficientFunds } = require('../errors/customErrors')
+const datasource = require('../../datasources/mongoDatasource')
+const { UserNotFound, ProductsNotFound, InsufficientFunds } = require('../../errors/customErrors')
 
 async function addPurchase(purchase) {
     // Check if the user exists in the database
@@ -21,12 +20,12 @@ async function addPurchase(purchase) {
 }
 
 async function getPurchases() {
-    const datasource = require('../datasources/mongoDatasource')
+    const datasource = require('../../datasources/mongoDatasource')
     return datasource.getPurchases()
 }
 
 async function getPurchasesUser(userId) {
-    const datasource = require('../datasources/mongoDatasource')
+    const datasource = require('../../datasources/mongoDatasource')
     return datasource.getPurchasesUser(userId)
 }
 
