@@ -19,7 +19,7 @@ router.patch('/api/users/:userId/roles', validateRoleUpdate, handleValidationErr
 // PATCH /api/users/:userId/balances
 router.patch('/api/users/:userId/balances', validateUserAccess, userController.addToBalances)
 
-// DELETE /users/:idUser?deletePurchases=true
+// DELETE api/users/:idUser
 router.delete('/api/users/:idUser', validateUserOrAdmin, userController.deleteUser)
 
 module.exports = router;
