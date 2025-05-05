@@ -1,4 +1,4 @@
-const datasource = require('../../datasources/mongoDatasource')
+const datasourceUser = require('../user/user.datasource')
 const datasourceProduct = require('../product/product.datasource')
 const datasourcePurchase = require('./purchase.datasource')
 const { UserNotFound, ProductsNotFound, InsufficientFunds } = require('../../errors/customErrors')
@@ -15,7 +15,7 @@ async function addPurchase(purchase) {
 
 async function validatePurchase(purchase) {
     // Check if the user exists in the database
-    const user = await datasource.getUser(purchase.idUser)
+    const user = await datasourceUser.getUser(purchase.idUser)
     if (! user) {
         throw new UserNotFound()
     }

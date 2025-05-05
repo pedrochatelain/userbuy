@@ -1,4 +1,4 @@
-const datasource = require('../../datasources/mongoDatasource')
+const datasourceUser = require('../user/user.datasource')
 const { getDb } = require('../../datasources/mongoConnection');
 const { ObjectId } = require('mongodb');
 
@@ -24,7 +24,7 @@ async function purchase(userID, product) {
       const insertResult = await purchasesCollection.insertOne(purchaseDoc, { session });
 
       // Update user balance
-      await datasource.addToBalances(userID, -product.price, session);
+      await datasourceUser.addToBalances(userID, -product.price, session);
 
       await session.commitTransaction();
 
