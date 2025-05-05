@@ -1,16 +1,15 @@
-const { getUsersCollection } = require('../datasources/mongoDatasource')
 const bcrypt = require('bcryptjs');
-const datasource = require('../datasources/mongoDatasource');
-const { UserNotFound } = require('../errors/customErrors');
+const datasource = require('./user.datasource');
+const { UserNotFound } = require('../../errors/customErrors');
 
 async function getUsers() {
-    return getUsersCollection().find().toArray();
+    return await datasource.getUsersCollection().find().toArray();
 }
 
 async function createUser(user) {
     try {
         user.password = await hashPassword(user.password)
-        const usersCollection = getUsersCollection()
+        const usersCollection = await datasource.getUsersCollection()
         const result = await usersCollection.insertOne(user);
         // Check if the document exists in the database
         return await usersCollection.findOne({ _id: result.insertedId });

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController')
-const validateUser = require('../middlewares/validateUser')
-const validateRoleUpdate = require('../middlewares/validateRoleUpdate');
-const handleValidationErrors = require('../middlewares/handleValidationErrors');
-const validateUserAccess = require('../middlewares/validateUserOrAdmin')
-const validateUserOrAdmin = require('../middlewares/validateUserOrAdmin')
+const userController = require('./user.controller')
+const validateUser = require('../../middlewares/validateUser')
+const validateRoleUpdate = require('../../middlewares/validateRoleUpdate');
+const handleValidationErrors = require('../../middlewares/handleValidationErrors');
+const validateUserAccess = require('../../middlewares/validateUserOrAdmin')
+const validateUserOrAdmin = require('../../middlewares/validateUserOrAdmin')
 
 // POST /api/users
 router.post('/api/users', validateUser, userController.createUser);
