@@ -53,4 +53,15 @@ async function addToBalances(userId, amount) {
     }
 }
 
-module.exports = { createUser, getUsers, editRoles, addToBalances }
+async function deleteUser(idUser) {
+    try {
+        if ( ! await datasource.existsUser(idUser)) {
+            throw new UserNotFound()
+        }
+        return await datasource.deleteUser(idUser)
+    } catch (err) {
+        throw err
+    }
+}
+
+module.exports = { createUser, getUsers, editRoles, addToBalances, deleteUser }

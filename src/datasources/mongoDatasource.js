@@ -196,6 +196,14 @@ async function deleteProduct(idProduct) {
   return await getProductsCollection().findOneAndDelete({ _id: ObjectId.createFromHexString(idProduct) });
 }
 
+async function deleteUser(idUser) {
+  return await getUsersCollection().findOneAndUpdate(
+    { _id: new ObjectId(idUser) },
+    { $set: {isDeleted: true} },
+    { returnDocument: 'after'}
+  )
+}
+
 module.exports = {
   getProductsCollection,
   getUsersCollection,
@@ -215,5 +223,6 @@ module.exports = {
   updateProduct,
   getProducts,
   deleteProduct,
-  getProductById
+  getProductById,
+  deleteUser
 };

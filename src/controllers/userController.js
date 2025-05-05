@@ -52,4 +52,17 @@ const addToBalances = async (req, res) => {
     }
 }
 
-module.exports = { createUser, getUsers, editRoles, addToBalances };
+const deleteUser = async (req, res) => {
+    try {
+        const idUser = req.params.idUser
+        const deletedUser = await service.deleteUser(idUser)
+        res.status(200).json({message: "User deleted successfully", deletedUser})
+    } catch (err) {
+        if ( ! err.statusCode)
+            err.statusCode = 500
+        res.status(err.statusCode).json({error: err.message})
+    }
+
+}
+
+module.exports = { createUser, getUsers, editRoles, addToBalances, deleteUser };
