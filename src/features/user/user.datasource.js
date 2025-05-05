@@ -1,4 +1,4 @@
-const { getDb } = require('../../datasources/mongoConnection');
+const { getDb } = require('../../config/mongoConnection');
 const { ObjectId } = require('mongodb');
 const { UserNotFound } = require('../../errors/customErrors')
 
