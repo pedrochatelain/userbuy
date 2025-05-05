@@ -4,7 +4,7 @@ const userController = require('../controllers/userController')
 const validateUser = require('../middlewares/validateUser')
 const validateRoleUpdate = require('../middlewares/validateRoleUpdate');
 const handleValidationErrors = require('../middlewares/handleValidationErrors');
-const authorizeUser = require('../middlewares/authorizeUser')
+const validateUserAccess = require('../middlewares/validateUserOrAdmin')
 
 // POST /api/users
 router.post('/api/users', validateUser, userController.createUser);
@@ -16,6 +16,7 @@ router.get('/api/users', userController.getUsers);
 router.patch('/api/users/:userId/roles', validateRoleUpdate, handleValidationErrors, userController.editRoles)
 
 // PATCH /api/users/:userId/balances
-router.patch('/api/users/:userId/balances', authorizeUser, userController.addToBalances)
+router.patch('/api/users/:userId/balances', validateUserAccess, userController.addToBalances)
+
 
 module.exports = router;
