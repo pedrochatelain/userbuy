@@ -1,4 +1,4 @@
-const service = require('../services/productServices'); // Adjust the path as needed
+const service = require('./product.service'); // Adjust the path as needed
 
 const addProduct = async (req, res) => {
   try {

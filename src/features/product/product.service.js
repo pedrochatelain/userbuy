@@ -1,5 +1,5 @@
-const datasource = require('../datasources/mongoDatasource')
-const { ProductsNotFound } = require('../errors/customErrors') 
+const datasource = require('./product.datasource')
+const { ProductsNotFound } = require('../../errors/customErrors') 
 
 async function addProduct(product) {
     try {

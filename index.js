@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const { connectDB } = require('./src/datasources/mongoConnection');
-const productsRoutes = require('./src/routes/productRoutes.js');
+const productsRoutes = require('./src/features/product/product.routes.js');
 const userRoutes = require('./src/routes/userRoutes.js');
 const purchaseRoutes = require('./src/features/purchase/purchase.routes.js');
 const loginRoutes = require('./src/routes/loginRoutes.js');

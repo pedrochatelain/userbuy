@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const validateProduct = require('../middlewares/validateProduct');
-const authorizeAdmin = require('../middlewares/authorizeAdmin')
-const productController = require('../controllers/productController')
+const validateProduct = require('../../middlewares/validateProduct');
+const authorizeAdmin = require('../../middlewares/authorizeAdmin')
+const productController = require('../product/product.controller')
 
 // POST /api/products
 router.post('/api/products', validateProduct, productController.addProduct);
