@@ -1,7 +1,7 @@
-const { getUserByUsername } = require('../datasources/mongoDatasource')
+const { getUserByUsername } = require('../user/user.datasource')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { UserNotFound, InvalidCredentials } = require('../errors/customErrors')
+const { UserNotFound, InvalidCredentials } = require('../../errors/customErrors')
 
 async function login(user) {
     const storedUser = await getUserByUsername(user.username)

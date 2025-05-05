@@ -4,7 +4,7 @@ const { connectDB } = require('./src/datasources/mongoConnection');
 const productsRoutes = require('./src/features/product/product.routes.js');
 const userRoutes = require('./src/features/user/user.routes.js');
 const purchaseRoutes = require('./src/features/purchase/purchase.routes.js');
-const loginRoutes = require('./src/routes/loginRoutes.js');
+const loginRoutes = require('./src/features/login/login.routes.js');
 const cors = require('cors');
 
 // Middleware to parse JSON
