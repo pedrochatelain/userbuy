@@ -6,6 +6,11 @@ const userRoutes = require('./src/features/user/user.routes.js');
 const purchaseRoutes = require('./src/features/purchase/purchase.routes.js');
 const loginRoutes = require('./src/features/login/login.routes.js');
 const cors = require('cors');
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./src/docs/swagger.js");
+
+// Swagger setup
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Middleware to parse JSON
 app.use(express.json());
