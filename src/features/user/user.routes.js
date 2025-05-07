@@ -7,6 +7,7 @@ const handleValidationErrors = require('../../middlewares/handleValidationErrors
 const validateUserAccess = require('../../middlewares/validateUserAccess')
 const validateUserOrAdmin = require('../../middlewares/validateUserOrAdmin')
 const validateObjectId = require('../../middlewares/validateObjectId');
+const authorizeAdmin = require('../../middlewares/authorizeAdmin')
 
 // POST /api/users
 router.post('/api/users', validateUser, userController.createUser);
@@ -14,9 +15,10 @@ router.post('/api/users', validateUser, userController.createUser);
 // GET /api/users
 router.get('/api/users', userController.getUsers);
 
-// PATCH /api/users/:userId/roles
+// Update user role
 router.patch(
   '/api/users/:userId/roles',
+  authorizeAdmin,
   validateObjectId('userId'),
   validateRoleUpdate,
   handleValidationErrors,
