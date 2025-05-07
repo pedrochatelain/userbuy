@@ -64,21 +64,49 @@ const usersPaths = {
           200: {
             description: "List of users",
             content: {
-              "application/json": {
-                schema: {
-                  type: "array",
-                  items: {
-                    type: "object",
-                    properties: {
-                      id: { type: "string" },
-                      name: { type: "string" },
-                      email: { type: "string" },
+                "application/json": {
+                  schema: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        _id: { type: "string", example: "681a9edeeb5dbad6fd8fdaae" },
+                        username: { type: "string", example: "John Doe" },
+                        password: {
+                          type: "string",
+                          example: "$2b$10$G9I8Fwqlt99JAVrw1tN9TeT4ygvMaHKAlIk3Qt9bYpCs7JyJHmep6",
+                        },
+                      },
                     },
+                    example: [
+                      {
+                        _id: "681a9edeeb5dbad6fd8fdaae",
+                        username: "John Doe",
+                        password: "$2b$10$G9I8Fwqlt99JAVrw1tN9TeT4ygvMaHKAlIk3Qt9bYpCs7JyJHmep6",
+                      },
+                      {
+                        _id: "681a9edeeb5dbad6fd8fdabf",
+                        username: "Jane Smith",
+                        password: "$2b$10$kljKSD8fsdfD2YyqkQ3kd9Fwqlt99JAVrw1tN9TeT4ygvMaHKAlIk3",
+                      },
+                    ],
                   },
                 },
               },
-            },
           },
+          500: { 
+            description: "Error fetching users", 
+            content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string", example: "Error fetching users" },
+                    },
+                  },
+                },
+            },
+        },
         },
       },
     },
