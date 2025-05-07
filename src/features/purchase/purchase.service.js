@@ -5,7 +5,7 @@ const { UserNotFound, ProductsNotFound, InsufficientFunds } = require('../../err
 
 async function addPurchase(purchase) {
     try {
-        validatePurchase(purchase)
+        await validatePurchase(purchase)
         const product = await datasourceProduct.getProductById(purchase.idProduct)
         return await datasourcePurchase.purchase(purchase.idUser, product)
     } catch (err) {
@@ -25,7 +25,7 @@ async function validatePurchase(purchase) {
         throw new ProductsNotFound(purchase.idProduct)
     } 
     // Check if user has sufficient funds to purchase the product
-    if ( user.balances < product.price ) {
+    if ( ! user.balances || user.balances < product.price ) {
         throw new InsufficientFunds()
     }
 }
