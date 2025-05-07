@@ -4,7 +4,7 @@ const userController = require('./user.controller')
 const validateUser = require('../../middlewares/validateUser')
 const validateRoleUpdate = require('../../middlewares/validateRoleUpdate');
 const handleValidationErrors = require('../../middlewares/handleValidationErrors');
-const validateUserAccess = require('../../middlewares/validateUserOrAdmin')
+const validateUserAccess = require('../../middlewares/validateUserAccess')
 const validateUserOrAdmin = require('../../middlewares/validateUserOrAdmin')
 
 // POST /api/users
