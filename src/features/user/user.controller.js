@@ -35,6 +35,8 @@ const editRoles = async (req, res) => {
         const user = await service.editRoles(userId, roles)
         res.status(200).json({message: "Role updated successfully", user})
     } catch(err) {
+        if ( ! err.statusCode)
+            err.statusCode = 500
         res.status(err.statusCode).json({message: err.message})
     }
 }
