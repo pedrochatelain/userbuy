@@ -18,8 +18,22 @@ const swaggerOptions = {
       },
     ],
     paths: {
-      ...usersPaths
-    }
+      ...usersPaths,
+    },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ["./src/features/user/user.routes.js"], // Path to your route files for annotations
 };
