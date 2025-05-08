@@ -130,10 +130,9 @@ const usersPaths = {
               schema: {
                 type: "object",
                 properties: {
-                  roles: {
-                    type: "array",
-                    items: { type: "string" },
-                    example: ["ADMIN", "CUSTOMER"],
+                  role: {
+                    type: "string",
+                    example: "admin",
                   },
                 },
               },
@@ -141,10 +140,130 @@ const usersPaths = {
           },
         },
         responses: {
-          200: { description: "Roles updated successfully" },
-          400: { description: "Validation errors" },
+          200: { 
+            description: "Roles updated successfully",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: {
+                      type: "string",
+                      example: "Role updated successfully",
+                    },
+                    user: {
+                      type: "object",
+                      properties: {
+                        _id: { type: "string", example: "681bd97be93006d979837e1b" },
+                        username: { type: "string", example: "x" },
+                        password: { 
+                          type: "string", 
+                          example: "$2b$10$orAJHiBrrwJoRMA0LSRhJOwiNRGqTwk.a9OWz46vRLkKUK39f7HQu" 
+                        },
+                        balances: { type: "integer", example: -100 },
+                        role: { type: "string", example: "CUSTOMER" },
+                      },
+                    },
+                  },
+                },
+              },
+            }
+                     
+          },
+          401: {
+            description: "Error: Unauthorized",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string" },
+                  },
+                },
+                examples: {
+                  missingToken: {
+                    summary: "Missing Token",
+                    value: { message: "Access token is missing" },
+                  },
+                  invalidToken: {
+                    summary: "Invalid or Expired Token",
+                    value: { message: "Invalid or expired token" },
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            description: "Error: Bad Request",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    error: { type: "string" }
+                  },
+                },
+                examples: {
+                  invalidIdForUser: {
+                    summary: "Invalid ID for user",
+                    value: { error: "Invalid ID for userId" },
+                  },
+                  extraFields: {
+                    summary: "Extra fields included",
+                    value: {
+                      success: false,
+                      errors: [
+                        "The request can only include the `role` field."
+                      ]
+                    },
+                  },
+                  invalidRole: {
+                    summary: "Invalid role",
+                    value: {
+                      success: false,
+                      errors: [
+                        "role must be one of the following: ADMIN, CUSTOMER"
+                      ]
+                    }
+                  }
+                },
+              },
+            },
+          },
+          404: {
+            description: "Error: Not Found",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    error: {
+                      type: "string",
+                      example: "User not found",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          403: {
+            description: "Error: Forbidden",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: {
+                      type: "string",
+                      example: "Forbidden: Admin access required",
+                    },
+                  },
+                },
+              },
+            },
+          }
         },
-      },
+      }
     },
   };
   
