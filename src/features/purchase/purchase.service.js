@@ -38,10 +38,22 @@ async function getPurchasesUser(userId) {
     return datasourcePurchase.getPurchasesUser(userId)
 }
 
-
+async function deletePurchase(idPurchase) {
+    try {
+        const deletedPurchase = await datasourcePurchase.deletePurchase(idPurchase)
+        if ( ! deletedPurchase) {
+            const error = new Error("Purchase not found")
+            error.statusCode = 404
+            throw error
+        }
+        return deletedPurchase
+    } catch (err) {
+        throw err
+    }
+}
 
 async function getPurchase(idPurchase) {
     return await datasourcePurchase.getPurchase(idPurchase)
 }
 
-module.exports = { addPurchase, getPurchases, getPurchasesUser, getPurchase }
+module.exports = { addPurchase, getPurchases, getPurchasesUser, deletePurchase, getPurchase }

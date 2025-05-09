@@ -38,6 +38,25 @@ async function purchase(userID, product) {
   }
 }
 
+async function deletePurchase(idPurchase) {
+  const purchasesCollection = getPurchasesCollection();
+  const session = purchasesCollection.client.startSession();
+  try {
+      session.startTransaction();
+      const purchase = await getPurchasesCollection().findOne({_id: ObjectId.createFromHexString(idPurchase)})
+      await datasourceUser.addToBalances(purchase.userID, purchase.product.price, session);
+      const deletedPurchase = await purchasesCollection.findOneAndDelete({ _id: ObjectId.createFromHexString(idPurchase) })
+      console.log(deletedPurchase)
+      await session.commitTransaction();
+      return deletedPurchase
+  } catch (error) {
+      await session.abortTransaction();
+      throw error;
+  } finally {
+      session.endSession();
+  }
+}
+
 async function getPurchases() {
   return getPurchasesCollection().find().toArray()
 }

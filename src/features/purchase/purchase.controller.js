@@ -29,4 +29,16 @@ const getPurchasesUser = async (req, res) => {
     }
 }
 
-module.exports = { addPurchase, getPurchases, getPurchasesUser };
+const deletePurchase = async (req, res) => {
+    try {
+        const idPurchase = req.params.idPurchase
+        const deletedPurchase = await service.deletePurchase(idPurchase)
+        res.status(200).json({deletedPurchase: deletedPurchase})
+    } catch (err) {
+        if ( ! err.statusCode)
+            err.statusCode = 500
+        res.status(err.statusCode).json({error: err.message})
+    }
+}
+
+module.exports = { addPurchase, getPurchases, getPurchasesUser, deletePurchase };
