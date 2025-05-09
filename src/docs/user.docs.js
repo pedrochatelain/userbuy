@@ -110,6 +110,129 @@ const usersPaths = {
         },
       },
     },
+    "/api/users/{idUser}": {
+      delete: {
+        summary: "Delete user",
+        tags: ["Users"],
+        parameters: [
+          {
+            name: "idUser",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+            description: "ID of the user",
+          },
+        ],
+        responses: {
+          200: { 
+            description: "User deleted successfully",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: {
+                      type: "string",
+                      example: "User deleted successfully",
+                    },
+                    deletedUser: {
+                      type: "object",
+                      properties: {
+                        _id: { type: "string", example: "681bd97be93006d979837e1b" },
+                        username: { type: "string", example: "x" },
+                        password: { 
+                          type: "string", 
+                          example: "$2b$10$orAJHiBrrwJoRMA0LSRhJOwiNRGqTwk.a9OWz46vRLkKUK39f7HQu" 
+                        },
+                        balances: { type: "number", example: -100 },
+                        role: { type: "string", example: "CUSTOMER" },
+                        isDeleted: { type: "boolean", example: true}
+                      },
+                    },
+                  },
+                },
+              },
+            }
+          },
+          400: {
+            description: "Error: Bad Request",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    error: { type: "string" }
+                  },
+                },
+                examples: {
+                  invalidIdForUser: {
+                    summary: "Invalid ID for user",
+                    value: { error: "Invalid ID for userId" },
+                  },
+                  extraFields: {
+                    summary: "Extra fields included",
+                    value: {
+                      success: false,
+                      errors: [
+                        "The request can only include the `role` field."
+                      ]
+                    },
+                  },
+                  invalidRole: {
+                    summary: "Invalid role",
+                    value: {
+                      success: false,
+                      errors: [
+                        "role must be one of the following: ADMIN, CUSTOMER"
+                      ]
+                    }
+                  }
+                },
+              },
+            },
+          },
+          401: {
+            description: "Error: Unauthorized",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string" },
+                  },
+                },
+                examples: {
+                  missingToken: {
+                    summary: "Missing Token",
+                    value: { message: "Access token is missing" },
+                  },
+                  invalidToken: {
+                    summary: "Invalid or Expired Token",
+                    value: { message: "Invalid or expired token" },
+                  },
+                },
+              },
+            },
+          },
+          403: {
+            description: "Error: Forbidden",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    error: {
+                      type: "string",
+                      example: "Forbidden: You do not have permission to perform this action",
+                    },
+                  },
+                },
+              },
+            },
+          }
+        }
+      }
+    },
     "/api/users/{userId}/roles": {
       patch: {
         summary: "Edit user roles",
