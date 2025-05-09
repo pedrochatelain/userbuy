@@ -46,4 +46,8 @@ async function getPurchasesUser(userId) {
   return getPurchasesCollection().find({userID: new ObjectId(userId)}).toArray()
 }
 
-module.exports = { purchase, getPurchases, getPurchasesUser }
+async function getPurchase(idPurchase) {
+  return await getPurchasesCollection().findOne({_id: new ObjectId(idPurchase)})
+}
+
+module.exports = { purchase, getPurchases, getPurchasesUser, deletePurchase, getPurchase }

@@ -38,4 +38,10 @@ async function getPurchasesUser(userId) {
     return datasourcePurchase.getPurchasesUser(userId)
 }
 
-module.exports = { addPurchase, getPurchases, getPurchasesUser }
+
+
+async function getPurchase(idPurchase) {
+    return await datasourcePurchase.getPurchase(idPurchase)
+}
+
+module.exports = { addPurchase, getPurchases, getPurchasesUser, getPurchase }
