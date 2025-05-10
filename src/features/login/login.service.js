@@ -13,8 +13,9 @@ async function login(user) {
         throw new InvalidCredentials()
     }
     return { 
-        success: true,
-        token: generateToken(storedUser)
+        message: "User logged in successfully",
+        token: generateToken(storedUser),
+        user: storedUser
     }
 }
 
