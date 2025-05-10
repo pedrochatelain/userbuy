@@ -1,5 +1,8 @@
 const { body, validationResult } = require('express-validator');
 
+// List of allowed fields
+const allowedFields = ['name', 'price', 'category', 'stock_quantity', 'currency', 'image'];
+
 const productValidation = [
   body('name').notEmpty().withMessage('Name is required'),
   body('price')
@@ -13,17 +16,28 @@ const productValidation = [
   body('currency')
     .optional() // Optional field
     .isString().withMessage('Currency must be a string'),
+  body('image')
+    .optional() // Optional field
+    .isString().withMessage('Image must be a string'),
 ];
 
-async function validateProduct (req, res, next) {
+async function validateProductCreation(req, res, next) {
+  // Run validations
   await Promise.all(productValidation.map(validation => validation.run(req)));
 
+  // Check for validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  next();
-};
+  // Check for extra fields
+  const extraFields = Object.keys(req.body).filter(key => !allowedFields.includes(key));
+  if (extraFields.length > 0) {
+    return res.status(400).json({ error: `Unexpected fields: ${extraFields.join(', ')}` });
+  }
 
-module.exports = validateProduct
+  next();
+}
+
+module.exports = validateProductCreation;
