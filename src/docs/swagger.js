@@ -1,5 +1,6 @@
 const swaggerJsDoc = require("swagger-jsdoc");
 const usersPaths = require("./user.docs");
+const loginPath = require("./login.docs");
 
 // Use the environment variable if available, otherwise default to localhost
 const serverUrl = process.env.SERVER_URL || "http://localhost:3000";
@@ -18,6 +19,7 @@ const swaggerOptions = {
       },
     ],
     paths: {
+      ...loginPath,
       ...usersPaths,
     },
     components: {
