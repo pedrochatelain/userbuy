@@ -122,9 +122,20 @@ const purchasePaths = {
               },
             },
           },
-         404: { $ref: "#/components/responses/NotFound" },
-
-          // 400: { $ref: "#/components/responses/BadRequest" },
+          402: {
+            description: "Error: Payment Required",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    error: { type: "string", example: "Insufficient funds" },
+                  },
+                },
+              },
+            },
+          },
+          404: { $ref: "#/components/responses/NotFound" },
         },
       },
       // get: {
