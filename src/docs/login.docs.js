@@ -19,7 +19,7 @@ const loginPath = {
         },
         responses: {
           200: { 
-            description: "User created successfully",
+            description: "User logged in successfully",
             content: {
                 "application/json": {
                   schema: {
