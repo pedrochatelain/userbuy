@@ -2,6 +2,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const usersPaths = require("./user.docs");
 const loginPath = require("./login.docs");
 const productPaths = require("./product.docs");
+const purchasePaths = require("./purchase.docs");
 
 // Use the environment variable if available, otherwise default to localhost
 const serverUrl = process.env.SERVER_URL || "http://localhost:3000";
@@ -22,10 +23,12 @@ const swaggerOptions = {
     paths: {
       ...loginPath,
       ...usersPaths,
-      ...productPaths.paths
+      ...productPaths.paths,
+      ...purchasePaths.paths
     },
     components: {
       ...productPaths.components,
+      ...purchasePaths.components,
       securitySchemes: {
         bearerAuth: {
           type: "http",
