@@ -22,9 +22,10 @@ const swaggerOptions = {
     paths: {
       ...loginPath,
       ...usersPaths,
-      ...productPaths
+      ...productPaths.paths
     },
     components: {
+      ...productPaths.components,
       securitySchemes: {
         bearerAuth: {
           type: "http",
