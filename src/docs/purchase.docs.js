@@ -168,7 +168,7 @@ const purchasePaths = {
                     ],
                   },
                 },
-              },
+            },
           },
           500: { 
             description: "Error fetching purchases", 
@@ -186,6 +186,54 @@ const purchasePaths = {
         },
       },
     },
+    "/api/users/{idUser}/purchases": {
+      get: {
+        summary: "Get user's purchases",
+        tags: ["Purchases"],
+        parameters: [
+          {
+            name: "idUser",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+            description: "ID of user",
+          },
+        ],
+        responses: {
+          200: {
+            description: "Product deleted successfully",
+            content: {
+                "application/json": {
+                  schema: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                    },
+                    example: [
+                      {
+                        "_id": "681bda52d5613c069cc7143f",
+                        "userID": "681bda4ad5613c069cc7143e",
+                        "product": {
+                            "_id": "681bd8d8f8dcfaa3599e4950",
+                            "category": "foo",
+                            "name": "bar",
+                            "price": 100,
+                            "stock_quantity": 4,
+                            "currency": "USD"
+                        },
+                        "purchaseDate": "2025-05-07T22:10:26.448Z"
+                      },
+                    ],
+                  },
+                },
+            },
+          },
+          401: { $ref: "#/components/responses/Unauthorized" },
+          403: { $ref: "#/components/responses/Forbidden" },
+
+        }
+      }
+    }
   },
 };
 
