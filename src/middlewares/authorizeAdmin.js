@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET); // Replace with your JWT secret
     if (decoded.role !== ROLES.ADMIN) {
-      return res.status(403).json({ message: 'Forbidden: Admin access required' });
+      return res.status(403).json({ message: 'Forbidden: You do not have permission to perform this action' });
     }
 
     next();

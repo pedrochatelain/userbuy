@@ -378,7 +378,7 @@ const usersPaths = {
                   properties: {
                     message: {
                       type: "string",
-                      example: "Forbidden: Admin access required",
+                      example: "Forbidden: You do not have permission to perform this action",
                     },
                   },
                 },
