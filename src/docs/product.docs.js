@@ -244,6 +244,48 @@ const productPaths = {
           401: { $ref: "#/components/responses/Unauthorized" },
           403: { $ref: "#/components/responses/Forbidden" },
         },
+      },
+      delete: {
+        summary: "Delete a product",
+        tags: ["Products"],
+        parameters: [
+          {
+            name: "idProduct",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+            description: "ID of the product",
+          },
+        ],
+        responses: {
+          200: {
+            description: "Product deleted successfully",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string", example: "Product deleted successfully" },
+                    product: {
+                      type: "object",
+                      properties: {
+                        category: { type: "string", example: "categ" },
+                        name: { type: "string", example: "name" },
+                        stock_quantity: { type: "integer", example: 8 },
+                        price: { type: "number", example: 1023.45 },
+                        currency: { type: "string", example: "USD" },
+                        image: { type: "string", example: "http://www.images.com/yourimage" },
+                        _id: { type: "string", example: "681fd1dae07055db24b902a9" },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          401: { $ref: "#/components/responses/Unauthorized" },
+          403: { $ref: "#/components/responses/Forbidden" },
+        },
       }
     }
   },
