@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
     const userRole = decodedToken.role;
     const purchase = await purchaseService.getPurchase(req.params.idPurchase)
     if ( ! purchase) {
-        return res.status(404).json({ message: 'Purchase not found' });
+        return res.status(404).json({ error: 'Purchase not found' });
     }
     // Allow if user is accessing their own purchase or is an admin
     if (userIdFromToken === purchase.userID.toString() || userRole === ROLES.ADMIN) {

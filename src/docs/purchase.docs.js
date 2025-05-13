@@ -63,6 +63,22 @@ const purchasePaths = {
           },
         },
       },
+      PurchaseNotFound: {
+        description: "Purchase Not Found",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                error: {
+                  type: "string",
+                  example: "Purchase not found",
+                },
+              },
+            },
+          },
+        },
+      },
     },
   },
   paths: {
@@ -231,6 +247,53 @@ const purchasePaths = {
           401: { $ref: "#/components/responses/Unauthorized" },
           403: { $ref: "#/components/responses/Forbidden" },
 
+        }
+      }
+    },
+    "/api/purchases/{idPurchase}": {
+      delete: {
+        summary: "Delete purchase",
+        tags: ["Purchases"],
+        parameters: [
+          {
+            name: "idPurchase",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+            description: "ID of the purchase",
+          },
+        ],
+        responses: {
+          200: { 
+            description: "Purchase deleted successfully",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    deletedPurchase: {
+                      example: {
+                        "_id": "681bda52d5613c069cc7143f",
+                        "userID": "681bda4ad5613c069cc7143e",
+                        "product": {
+                            "_id": "681bd8d8f8dcfaa3599e4950",
+                            "category": "any",
+                            "name": "we",
+                            "price": 100,
+                            "stock_quantity": 4,
+                            "currency": "USD"
+                        },
+                        "purchaseDate": "2025-05-07T22:10:26.448Z"
+                      },
+                    }
+                  },
+                },
+              },
+            }
+          },
+          401: { $ref: "#/components/responses/Unauthorized" },
+          403: { $ref: "#/components/responses/Forbidden" },
+          404: { $ref: "#/components/responses/PurchaseNotFound" },
         }
       }
     }

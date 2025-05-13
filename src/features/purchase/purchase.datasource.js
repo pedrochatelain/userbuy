@@ -66,7 +66,11 @@ async function getPurchasesUser(userId) {
 }
 
 async function getPurchase(idPurchase) {
-  return await getPurchasesCollection().findOne({_id: new ObjectId(idPurchase)})
+  try {
+    return await getPurchasesCollection().findOne({_id: new ObjectId(idPurchase)})
+  } catch (err) {
+    throw err
+  }
 }
 
 module.exports = { purchase, getPurchases, getPurchasesUser, deletePurchase, getPurchase }

@@ -53,7 +53,11 @@ async function deletePurchase(idPurchase) {
 }
 
 async function getPurchase(idPurchase) {
-    return await datasourcePurchase.getPurchase(idPurchase)
+    try {
+        return await datasourcePurchase.getPurchase(idPurchase)
+    } catch (err) {
+        return null
+    }
 }
 
 module.exports = { addPurchase, getPurchases, getPurchasesUser, deletePurchase, getPurchase }
