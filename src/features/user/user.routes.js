@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('./user.controller')
-const validateUser = require('../../middlewares/validateUser')
+const validateUserCreation = require('../../middlewares/validateUserCreation')
 const validateRoleUpdate = require('../../middlewares/validateRoleUpdate');
 const handleValidationErrors = require('../../middlewares/handleValidationErrors');
 const validateUserAccess = require('../../middlewares/validateUserAccess')
@@ -10,7 +10,7 @@ const validateObjectId = require('../../middlewares/validateObjectId');
 const authorizeAdmin = require('../../middlewares/authorizeAdmin')
 
 // POST /api/users
-router.post('/api/users', validateUser, userController.createUser);
+router.post('/api/users', validateUserCreation, userController.createUser);
 
 // GET /api/users
 router.get('/api/users', userController.getUsers);
