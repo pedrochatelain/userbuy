@@ -9,6 +9,9 @@ async function getUsers() {
 async function createUser(user) {
     try {
         user.password = await hashPassword(user.password)
+        if (user.role) {
+            user.role = user.role.toUpperCase()
+        }
         const usersCollection = await datasource.getUsersCollection()
         const result = await usersCollection.insertOne(user);
         // Check if the document exists in the database
