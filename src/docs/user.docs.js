@@ -12,8 +12,28 @@ const usersPaths = {
                 properties: {
                   username: { type: "string", example: "John Doe" },
                   password: { type: "string", example: "password123" },
+                  role: { type: "string", example: "ADMIN", description: "Optional role of the user", enum: ["ADMIN", "CUSTOMER"] },
+                },
+                required: ["username", "password"], // Only username and password are required
+              },
+              examples: {
+                createAdmin: {
+                  summary: "Create admin",
+                  value: {
+                    username: "John Doe",
+                    password: "password123",
+                    role: "ADMIN",
+                  },
+                },
+                createUser: {
+                  summary: "Create user",
+                  value: {
+                    username: "John Doe",
+                    password: "password123",
+                  },
                 },
               },
+
             },
           },
         },
