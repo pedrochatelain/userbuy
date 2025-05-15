@@ -54,6 +54,50 @@ const productPaths = {
       get: {
         summary: "Get a list of products",
         tags: ["Products"],
+        parameters: [
+          {
+            name: "name",
+            in: "query",
+            description: "Filter products by name",
+            required: false,
+            schema: { type: "string" },
+          },
+          {
+            name: "price",
+            in: "query",
+            description: "Filter products by price",
+            required: false,
+            schema: { type: "number" },
+          },
+          {
+            name: "category",
+            in: "query",
+            description: "Filter products by category",
+            required: false,
+            schema: { type: "string" },
+          },
+          {
+            name: "stock_quantity",
+            in: "query",
+            description: "Filter products by stock quantity",
+            required: false,
+            schema: { type: "integer" },
+          },
+          {
+            name: "currency",
+            in: "query",
+            description: "Filter products by currency",
+            required: false,
+            schema: { type: "string" },
+          },
+          {
+            name: "image",
+            in: "query",
+            description: "Filter products by image URL or identifier",
+            required: false,
+            schema: { type: "string" },
+          },
+        ],
         responses: {
           200: {
             description: "A list of products",
