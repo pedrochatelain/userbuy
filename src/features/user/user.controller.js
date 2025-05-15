@@ -11,7 +11,7 @@ const createUser = async (req, res) => {
     if (userCreation) {
         res.status(201).json({ message: 'User created successfully', user })
     } else {
-        res.status(400).json({message: "couldn't create user"})
+        res.status(400).json({error: "couldn't create user"})
     }
 }
 
@@ -20,7 +20,7 @@ const getUsers = async (req, res) => {
         const users = await service.getUsers()
         res.status(200).json(users)
     } catch(err) {
-        res.status(500).json({message: "Error fetching users"})
+        res.status(500).json({error: "Error fetching users"})
     }
 }
 
@@ -37,7 +37,7 @@ const editRoles = async (req, res) => {
     } catch(err) {
         if ( ! err.statusCode)
             err.statusCode = 500
-        res.status(err.statusCode).json({message: err.message})
+        res.status(err.statusCode).json({error: err.message})
     }
 }
 
@@ -50,7 +50,7 @@ const addToBalances = async (req, res) => {
     } catch (err) {
         if ( ! err.statusCode)
             err.statusCode = 500
-        res.status(err.statusCode).json({message: err.message})
+        res.status(err.statusCode).json({error: err.message})
     }
 }
 

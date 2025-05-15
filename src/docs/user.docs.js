@@ -121,7 +121,7 @@ const usersPaths = {
                   schema: {
                     type: "object",
                     properties: {
-                      message: { type: "string", example: "Error fetching users" },
+                      error: { type: "string", example: "Error fetching users" },
                     },
                   },
                 },
@@ -224,11 +224,11 @@ const usersPaths = {
                 examples: {
                   missingToken: {
                     summary: "Missing Token",
-                    value: { message: "Access token is missing" },
+                    value: { error: "Access token is missing" },
                   },
                   invalidToken: {
                     summary: "Invalid or Expired Token",
-                    value: { message: "Invalid or expired token" },
+                    value: { error: "Invalid or expired token" },
                   },
                 },
               },
@@ -326,11 +326,11 @@ const usersPaths = {
                 examples: {
                   missingToken: {
                     summary: "Missing Token",
-                    value: { message: "Access token is missing" },
+                    value: { error: "Access token is missing" },
                   },
                   invalidToken: {
                     summary: "Invalid or Expired Token",
-                    value: { message: "Invalid or expired token" },
+                    value: { error: "Invalid or expired token" },
                   },
                 },
               },
@@ -480,11 +480,11 @@ const usersPaths = {
                 examples: {
                   missingToken: {
                     summary: "Missing Token",
-                    value: { message: "Access token is missing" },
+                    value: { error: "Access token is missing" },
                   },
                   invalidToken: {
                     summary: "Invalid or Expired Token",
-                    value: { message: "Invalid or expired token" },
+                    value: { error: "Invalid or expired token" },
                   },
                 },
               },

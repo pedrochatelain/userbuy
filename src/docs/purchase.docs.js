@@ -111,7 +111,7 @@ const purchasePaths = {
                   schema: {
                     type: "object",
                     properties: {
-                      message: { type: "string", example: "Error fetching purchases" },
+                      error: { type: "string", example: "Error fetching purchases" },
                     },
                   },
                 },

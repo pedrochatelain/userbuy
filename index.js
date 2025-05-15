@@ -23,10 +23,8 @@ app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
     // This handles body-parser JSON parsing errors
     return res.status(400).json({
-      error: {
-        message: 'Invalid JSON syntax.',
-        details: err.message,
-      },
+      error: 'Invalid JSON syntax.',
+      details: err.message,
     });
   }
   // Pass to the next error handler

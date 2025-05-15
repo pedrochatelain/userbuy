@@ -1,13 +1,13 @@
 class CustomError extends Error {
-    constructor(message, statusCode) {
-        super(message);
+    constructor(error, statusCode) {
+        super(error);
         this.statusCode = statusCode;
     }
 }
 
 class UserNotFound extends CustomError {
-    constructor(message = "User not found") {
-        super(message, 404);
+    constructor(error = "User not found") {
+        super(error, 404);
     }
 }
 
