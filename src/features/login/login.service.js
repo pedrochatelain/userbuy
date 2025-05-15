@@ -1,7 +1,7 @@
 const { getUserByUsername } = require('../user/user.datasource')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { UserNotFound, InvalidCredentials } = require('../../errors/customErrors')
+const { UserNotFound, InvalidCredentials, DeletedUser } = require('../../errors/customErrors')
 
 async function login(user) {
     const storedUser = await getUserByUsername(user.username)
@@ -11,6 +11,9 @@ async function login(user) {
     const storedHashedPassword = storedUser.password
     if ( ! await match(user.password, storedHashedPassword)) {
         throw new InvalidCredentials()
+    }
+    if (storedUser.isDeleted) {
+        throw new DeletedUser()
     }
     return { 
         message: "User logged in successfully",

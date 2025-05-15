@@ -29,4 +29,10 @@ class InvalidCredentials extends CustomError {
     }
 }
 
-module.exports = { UserNotFound, ProductsNotFound, InsufficientFunds, InvalidCredentials }
+class DeletedUser extends CustomError {
+    constructor() {
+        super("User was deleted", 403);
+    }
+}
+
+module.exports = { UserNotFound, ProductsNotFound, InsufficientFunds, InvalidCredentials, DeletedUser }
