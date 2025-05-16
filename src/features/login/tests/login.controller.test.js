@@ -1,7 +1,7 @@
-const { login } = require('../../features/login/login.controller');
-const service = require('../../features/login/login.service');
+const { login } = require('../login.controller');
+const service = require('../login.service');
 
-jest.mock('../../features/login/login.service');
+jest.mock('../login.service');
 
 describe('Login Controller', () => {
     let mockReq, mockRes;

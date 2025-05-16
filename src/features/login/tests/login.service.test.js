@@ -1,10 +1,10 @@
-const { login } = require('../../features/login/login.service');
-const { getUserByUsername } = require('../../features/user/user.datasource');
+const { login } = require('../login.service');
+const { getUserByUsername } = require('../../user/user.datasource');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { UserNotFound, InvalidCredentials, DeletedUser } = require('../../errors/customErrors');
+const { UserNotFound, InvalidCredentials, DeletedUser } = require('../../../errors/customErrors');
 
-jest.mock('../../features/user/user.datasource');
+jest.mock('../../user/user.datasource');
 jest.mock('bcryptjs');
 jest.mock('jsonwebtoken');
 

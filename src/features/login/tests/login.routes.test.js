@@ -1,10 +1,10 @@
 const request = require('supertest');
 const express = require('express');
-const router = require('../../features/login/login.routes');
-const loginController = require('../../features/login/login.controller');
+const router = require('../login.routes');
+const loginController = require('../login.controller');
 
 // Mock the login controller
-jest.mock('../../features/login/login.controller', () => ({
+jest.mock('../login.controller', () => ({
   login: jest.fn(),
 }));
 
