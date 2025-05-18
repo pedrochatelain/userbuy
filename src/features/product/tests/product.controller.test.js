@@ -39,13 +39,18 @@ describe('Product Controller', () => {
       const req = mockRequest({ name: 'Test Product', price: 100 });
       const res = mockResponse();
 
-      productService.addProduct.mockRejectedValue(new Error('Service error'));
+      const error = new Error('Service error');
+      productService.addProduct.mockRejectedValue(error);
 
       await productController.addProduct(req, res);
 
       expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Service error' });
+      expect(res.json).toHaveBeenCalledWith({
+          error: 'Service error',
+          details: error,
+      });
     });
+
   });
 
   describe('getProducts', () => {
