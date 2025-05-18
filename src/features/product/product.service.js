@@ -1,8 +1,44 @@
+const { GoogleGenAI } = require('@google/genai');
+const getPromptFromSecretFile = require('../../config/getPromptFromSecretFile')
+
 const datasource = require('./product.datasource')
-const { ProductsNotFound } = require('../../errors/customErrors') 
+const { ProductsNotFound, ProductRejectedByAI } = require('../../errors/customErrors') 
+
+async function checkProductWithGoogleAI(product) {
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const prompt = await getPromptFromSecretFile();
+    const formattedPrompt = prompt
+        .replace('${product.category}', product.category)
+        .replace('${product.name}', product.name);
+
+
+    const response = await ai.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: formattedPrompt,
+    });
+
+    const responseText = response.text.trim();
+
+    // Sanitize the response by removing backticks and surrounding code blocks
+    const sanitizedResponseText = responseText.replace(/```json|```/g, "").trim();
+
+    let responseJson;
+    try {
+        responseJson = JSON.parse(sanitizedResponseText);
+    } catch (parseErr) {
+        throw new Error("Failed to parse AI response as JSON: " + sanitizedResponseText);
+    }
+
+    if (responseJson && responseJson.issues && (responseJson.issues.category || responseJson.issues.name)) {
+        throw new ProductRejectedByAI(responseJson.issues)
+    }
+}
+
+
 
 async function addProduct(product) {
     try {
+        await checkProductWithGoogleAI(product)
         await datasource.addProduct(product)
     } catch(err) {
         throw err

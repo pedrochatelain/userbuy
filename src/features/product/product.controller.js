@@ -6,8 +6,9 @@ const addProduct = async (req, res) => {
     await service.addProduct(product);
     res.status(200).json({ message: 'Product added successfully', product });
   } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+    if ( ! err.statusCode)
+      err.statusCode = 500
+    res.status(err.statusCode).json({error: err.message, details: err})  }
 };
 
 const getProducts = async (req, res) => {
