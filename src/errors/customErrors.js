@@ -35,4 +35,11 @@ class DeletedUser extends CustomError {
     }
 }
 
-module.exports = { UserNotFound, ProductsNotFound, InsufficientFunds, InvalidCredentials, DeletedUser }
+class ProductRejectedByAI extends CustomError {
+    constructor(issues) {
+        super("Product rejected by AI", 400); // Call the parent constructor with the message
+        this.issues = issues
+    }  
+}
+
+module.exports = { UserNotFound, ProductsNotFound, InsufficientFunds, InvalidCredentials, DeletedUser, ProductRejectedByAI }
