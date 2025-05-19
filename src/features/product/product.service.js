@@ -2,7 +2,8 @@ const { GoogleGenAI } = require('@google/genai');
 const getPromptFromSecretFile = require('../../config/getPromptFromSecretFile')
 
 const datasource = require('./product.datasource')
-const { ProductsNotFound, ProductRejectedByAI } = require('../../errors/customErrors') 
+const { ProductsNotFound, ProductRejectedByAI } = require('../../errors/customErrors'); 
+const isProduction = require('../../config/isProduction');
 
 async function checkProductWithGoogleAI(product) {
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -38,7 +39,8 @@ async function checkProductWithGoogleAI(product) {
 
 async function addProduct(product) {
     try {
-        await checkProductWithGoogleAI(product)
+        if (isProduction())
+            await checkProductWithGoogleAI(product)
         await datasource.addProduct(product)
     } catch(err) {
         throw err
