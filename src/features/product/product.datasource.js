@@ -1,4 +1,4 @@
-const { getDb } = require('../../config/mongoConnection');
+const { getDb } = require('../../config/database.mongodb.js');
 const { ObjectId } = require('mongodb');
 
 function getProductsCollection() {

@@ -7,11 +7,11 @@ const {
     getProductById 
 } = require('../product.datasource');
 
-jest.mock('../../../config/mongoConnection.js', () => ({
+jest.mock('../../../config/database.mongodb.js', () => ({
     getDb: jest.fn()
 }));
 
-const { getDb } = require('../../../config/mongoConnection.js');
+const { getDb } = require('../../../config/database.mongodb.js');
 
 describe('Datasource Tests', () => {
     let mockCollection;
