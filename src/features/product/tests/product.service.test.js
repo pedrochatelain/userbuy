@@ -2,11 +2,11 @@ const service = require('../product.service');
 const datasource = require('../product.datasource');
 const { GoogleGenAI } = require('@google/genai');
 const { ProductsNotFound, ProductRejectedByAI } = require('../../../errors/customErrors');
-const getPromptFromSecretFile = require('../../../config/getPromptFromSecretFile');
+const getPromptFromSecretFile = require('../../utils/getPromptFromSecretFile');
 
 jest.mock('../product.datasource.js');
 jest.mock('@google/genai');
-jest.mock('../../../config/getPromptFromSecretFile');
+jest.mock('../../utils/getPromptFromSecretFile');
 
 describe('Product Service', () => {
   beforeEach(() => {
