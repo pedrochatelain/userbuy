@@ -65,15 +65,15 @@ describe('Purchase Controller', () => {
 
     describe('getPurchasesUser', () => {
         it('should return 200 and user purchases on success', async () => {
-            const userId = '123';
+            const idUser = '123';
             const purchases = [{ id: 1, item: 'Test Item' }];
             service.getPurchasesUser.mockResolvedValue(purchases);
 
-            req.params.userId = userId;
+            req.params.idUser = idUser;
 
             await getPurchasesUser(req, res);
 
-            expect(service.getPurchasesUser).toHaveBeenCalledWith(userId);
+            expect(service.getPurchasesUser).toHaveBeenCalledWith(idUser);
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.json).toHaveBeenCalledWith(purchases);
         });
@@ -81,7 +81,7 @@ describe('Purchase Controller', () => {
         it('should handle errors and return 500 with an error message', async () => {
             service.getPurchasesUser.mockRejectedValue(new Error('Error fetching user purchases'));
 
-            req.params.userId = '123';
+            req.params.idUser = '123';
 
             await getPurchasesUser(req, res);
 

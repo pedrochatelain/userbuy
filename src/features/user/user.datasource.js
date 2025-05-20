@@ -6,15 +6,15 @@ function getUsersCollection() {
   return getDb().collection('users');
 }
 
-async function getUser(userID) {
+async function getUser(idUser) {
   const usersCollection = getUsersCollection();
 
-  // Check if userID is valid before attempting to create an ObjectId
-  if (!ObjectId.isValid(userID)) {
+  // Check if idUser is valid before attempting to create an ObjectId
+  if (!ObjectId.isValid(idUser)) {
     return null; // Return null or handle invalid ID cases appropriately
   }
 
-  const documentID = ObjectId.createFromHexString(userID);
+  const documentID = ObjectId.createFromHexString(idUser);
 
   try {
     return await usersCollection.findOne({ _id: documentID });
@@ -34,14 +34,14 @@ async function getUserByUsername(username) {
   }
 }
 
-async function existsUser(userID) {
-  const exists = await getUser(userID) != null
+async function existsUser(idUser) {
+  const exists = await getUser(idUser) != null
   return exists
 }
 
-async function updateUserRole(userId, roles) {
+async function updateUserRole(idUser, roles) {
   const result = await getUsersCollection().updateOne(
-    { _id: new ObjectId(userId) },
+    { _id: new ObjectId(idUser) },
     { $set: { role: roles } }
   )
   if (result.matchedCount === 0) {
@@ -50,12 +50,12 @@ async function updateUserRole(userId, roles) {
   return result
 }
 
-async function addToBalances(userId, amount, session = null) {
+async function addToBalances(idUser, amount, session = null) {
   try {
     const usersCollection = getUsersCollection();
     const options = session ? { session } : {};
     await usersCollection.updateOne(
-        { _id: new ObjectId(userId) },
+        { _id: new ObjectId(idUser) },
         { $inc: { balances: amount } },
         options
     );

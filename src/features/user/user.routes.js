@@ -17,18 +17,18 @@ router.get('/api/users', userController.getUsers);
 
 // Update user role
 router.patch(
-  '/api/users/:userId/roles',
+  '/api/users/:idUser/roles',
   authorizeAdmin,
-  validateObjectId('userId'),
+  validateObjectId('idUser'),
   validateRoleUpdate,
   handleValidationErrors,
   userController.editRoles
 );
 
-// PATCH /api/users/:userId/balances
+// PATCH /api/users/:idUser/balances
 router.patch(
-  '/api/users/:userId/balances',
-  validateObjectId('userId'),
+  '/api/users/:idUser/balances',
+  validateObjectId('idUser'),
   validateUserAccess,
   userController.addToBalances
 );

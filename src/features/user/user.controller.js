@@ -29,10 +29,10 @@ const editRoles = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const userId = req.params.userId
+    const idUser = req.params.idUser
     const roles = req.body.role
     try {
-        const user = await service.editRoles(userId, roles)
+        const user = await service.editRoles(idUser, roles)
         res.status(200).json({message: "Role updated successfully", user})
     } catch(err) {
         if ( ! err.statusCode)
@@ -43,9 +43,9 @@ const editRoles = async (req, res) => {
 
 const addToBalances = async (req, res) => {
     try {
-        const userId = req.params.userId
+        const idUser = req.params.idUser
         const amount = req.body.amount
-        const response = await service.addToBalances(userId, amount)
+        const response = await service.addToBalances(idUser, amount)
         res.status(200).json({message: "User balances updated successfully", response})
     } catch (err) {
         if ( ! err.statusCode)

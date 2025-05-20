@@ -34,8 +34,8 @@ async function getPurchases() {
     return datasourcePurchase.getPurchases()
 }
 
-async function getPurchasesUser(userId) {
-    return datasourcePurchase.getPurchasesUser(userId)
+async function getPurchasesUser(idUser) {
+    return datasourcePurchase.getPurchasesUser(idUser)
 }
 
 async function deletePurchase(idPurchase) {

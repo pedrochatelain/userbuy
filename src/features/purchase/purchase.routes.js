@@ -11,7 +11,7 @@ router.post('/api/purchases', purchaseController.addPurchase);
 router.get('/api/purchases', purchaseController.getPurchases)
 
 // Get user's purchases
-router.get('/api/users/:userId/purchases', validateUserAccess, purchaseController.getPurchasesUser);
+router.get('/api/users/:idUser/purchases', validateUserAccess, purchaseController.getPurchasesUser);
 
 // Delete purchase
 router.delete('/api/purchases/:idPurchase', validatePurchaseDeletion, purchaseController.deletePurchase);

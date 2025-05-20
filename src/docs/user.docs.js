@@ -187,7 +187,7 @@ const usersPaths = {
                 examples: {
                   invalidIdForUser: {
                     summary: "Invalid ID for user",
-                    value: { error: "Invalid ID for userId" },
+                    value: { error: "Invalid ID for idUser" },
                   },
                   extraFields: {
                     summary: "Extra fields included",
@@ -253,13 +253,13 @@ const usersPaths = {
         }
       }
     },
-    "/api/users/{userId}/roles": {
+    "/api/users/{idUser}/roles": {
       patch: {
         summary: "Edit user roles",
         tags: ["Users"],
         parameters: [
           {
-            name: "userId",
+            name: "idUser",
             in: "path",
             required: true,
             schema: { type: "string" },
@@ -349,7 +349,7 @@ const usersPaths = {
                 examples: {
                   invalidIdForUser: {
                     summary: "Invalid ID for user",
-                    value: { error: "Invalid ID for userId" },
+                    value: { error: "Invalid ID for idUser" },
                   },
                   extraFields: {
                     summary: "Extra fields included",
@@ -408,13 +408,13 @@ const usersPaths = {
         },
       }
     },
-    "/api/users/{userId}/balances": {
+    "/api/users/{idUser}/balances": {
       patch: {
         summary: "Edit user balances",
         tags: ["Users"],
         parameters: [
           {
-            name: "userId",
+            name: "idUser",
             in: "path",
             required: true,
             schema: { type: "string" },
@@ -503,7 +503,7 @@ const usersPaths = {
                 examples: {
                   invalidIdForUser: {
                     summary: "Invalid ID for user",
-                    value: { error: "Invalid ID for userId" },
+                    value: { error: "Invalid ID for idUser" },
                   },
                   invalidRole: {
                     summary: "Invalid role",

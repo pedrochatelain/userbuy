@@ -11,14 +11,14 @@ module.exports = async (req, res, next) => {
 
   try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET); // Replace with your JWT secret
-    const userIdFromToken = decodedToken.id
+    const idUserFromToken = decodedToken.id
     const userRole = decodedToken.role;
     const purchase = await purchaseService.getPurchase(req.params.idPurchase)
     if ( ! purchase) {
         return res.status(404).json({ error: 'Purchase not found' });
     }
     // Allow if user is accessing their own purchase or is an admin
-    if (userIdFromToken === purchase.userID.toString() || userRole === ROLES.ADMIN) {
+    if (idUserFromToken === purchase.idUser.toString() || userRole === ROLES.ADMIN) {
       return next();
     }
 

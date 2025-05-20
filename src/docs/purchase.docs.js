@@ -31,7 +31,7 @@ const purchasePaths = {
                       type: "object",
                       properties: {
                         _id: { type: "string", example: "68224742c63e8f5e97ffb283" },
-                        userID: { type: "string", example: "681bda1de5b440e3cbfa0d8f" },
+                        idUser: { type: "string", example: "681bda1de5b440e3cbfa0d8f" },
                         product: {
                           type: "object",
                           properties: {
@@ -88,7 +88,7 @@ const purchasePaths = {
                     example: [
                       {
                         "_id": "681bda52d5613c069cc7143f",
-                        "userID": "681bda4ad5613c069cc7143e",
+                        "idUser": "681bda4ad5613c069cc7143e",
                         "product": {
                             "_id": "681bd8d8f8dcfaa3599e4950",
                             "category": "any",
@@ -146,7 +146,7 @@ const purchasePaths = {
                     example: [
                       {
                         "_id": "681bda52d5613c069cc7143f",
-                        "userID": "681bda4ad5613c069cc7143e",
+                        "idUser": "681bda4ad5613c069cc7143e",
                         "product": {
                             "_id": "681bd8d8f8dcfaa3599e4950",
                             "category": "foo",
@@ -192,7 +192,7 @@ const purchasePaths = {
                     deletedPurchase: {
                       example: {
                         "_id": "681bda52d5613c069cc7143f",
-                        "userID": "681bda4ad5613c069cc7143e",
+                        "idUser": "681bda4ad5613c069cc7143e",
                         "product": {
                             "_id": "681bd8d8f8dcfaa3599e4950",
                             "category": "any",

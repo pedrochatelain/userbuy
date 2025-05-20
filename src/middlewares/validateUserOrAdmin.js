@@ -10,11 +10,11 @@ module.exports = (req, res, next) => {
 
   try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET); // Replace with your JWT secret
-    const userIdFromToken = decodedToken.id;
+    const idUserFromToken = decodedToken.id;
     const userRole = decodedToken.role;
 
     // Allow if user is accessing their own resource or is an admin
-    if (userIdFromToken === req.params.idUser || userRole === ROLES.ADMIN) {
+    if (idUserFromToken === req.params.idUser || userRole === ROLES.ADMIN) {
       return next();
     }
 

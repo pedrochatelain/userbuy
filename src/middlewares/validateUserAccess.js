@@ -9,8 +9,8 @@ module.exports = (req, res, next) => {
 
   try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET); // Replace with your JWT secret
-    const userIdFromToken = decodedToken.id;
-    if (userIdFromToken !== req.params.userId) {
+    const idUserFromToken = decodedToken.id;
+    if (idUserFromToken !== req.params.idUser) {
       return res.status(403).json({ error: 'Forbidden: You do not have permission to access this resource' });
     }
     next();

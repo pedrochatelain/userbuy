@@ -6,7 +6,7 @@ function getPurchasesCollection() {
     return getDb().collection('purchases');
 }
 
-async function purchase(userID, product) {
+async function purchase(idUser, product) {
   const purchasesCollection = getPurchasesCollection();
   const session = purchasesCollection.client.startSession();
 
@@ -15,7 +15,7 @@ async function purchase(userID, product) {
       
       // Create the purchase document
       const purchaseDoc = {
-          userID: new ObjectId(userID),
+          idUser: new ObjectId(idUser),
           product,
           purchaseDate: new Date(),
       };
@@ -24,7 +24,7 @@ async function purchase(userID, product) {
       const insertResult = await purchasesCollection.insertOne(purchaseDoc, { session });
 
       // Update user balance
-      await datasourceUser.addToBalances(userID, -product.price, session);
+      await datasourceUser.addToBalances(idUser, -product.price, session);
 
       await session.commitTransaction();
 
@@ -44,7 +44,7 @@ async function deletePurchase(idPurchase) {
   try {
       session.startTransaction();
       const purchase = await getPurchasesCollection().findOne({_id: ObjectId.createFromHexString(idPurchase)})
-      await datasourceUser.addToBalances(purchase.userID, purchase.product.price, session);
+      await datasourceUser.addToBalances(purchase.idUser, purchase.product.price, session);
       const deletedPurchase = await purchasesCollection.findOneAndDelete({ _id: ObjectId.createFromHexString(idPurchase) })
       console.log(deletedPurchase)
       await session.commitTransaction();
@@ -61,8 +61,8 @@ async function getPurchases() {
   return getPurchasesCollection().find().toArray()
 }
 
-async function getPurchasesUser(userId) {
-  return getPurchasesCollection().find({userID: new ObjectId(userId)}).toArray()
+async function getPurchasesUser(idUser) {
+  return getPurchasesCollection().find({idUser: new ObjectId(idUser)}).toArray()
 }
 
 async function getPurchase(idPurchase) {

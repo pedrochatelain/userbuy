@@ -33,23 +33,23 @@ async function hashPassword(password) {
     }
 }
 
-async function editRoles(userId, roles) {
+async function editRoles(idUser, roles) {
     try {
-        await datasource.updateUserRole(userId, roles)
-        return datasource.getUser(userId)
+        await datasource.updateUserRole(idUser, roles)
+        return datasource.getUser(idUser)
     } catch (err) {
         console.log(err)
         throw err
     }
 }
 
-async function addToBalances(userId, amount) {
+async function addToBalances(idUser, amount) {
     try {
-        if ( ! await datasource.existsUser(userId)) {
+        if ( ! await datasource.existsUser(idUser)) {
             throw new UserNotFound()
         }
-        await datasource.addToBalances(userId, amount)
-        return datasource.getUser(userId)
+        await datasource.addToBalances(idUser, amount)
+        return datasource.getUser(idUser)
     } catch (err) {
         throw err
     }
