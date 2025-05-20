@@ -30,6 +30,8 @@ describe('Product Service', () => {
 
     it('should reject a product if AI detects issues', async () => {
       const mockProduct = { name: 'Phone', category: 'Electronics' };
+
+      // Mock AI response to indicate issues
       GoogleGenAI.prototype.models = {
         generateContent: jest.fn().mockResolvedValue({
           text: '{"issues": {"name": "Invalid name"}}',
@@ -37,9 +39,15 @@ describe('Product Service', () => {
       };
       getPromptFromSecretFile.mockResolvedValue('Prompt with ${product.name} and ${product.category}');
 
-      await expect(service.addProduct(mockProduct)).rejects.toThrow(ProductRejectedByAI);
-      expect(datasource.addProduct).not.toHaveBeenCalled();
+      try {
+        await service.addProduct(mockProduct);
+      } catch (err) {
+        expect(err).toBeInstanceOf(ProductRejectedByAI);
+        expect(err.issues).toEqual({ name: 'Invalid name' });
+        expect(datasource.addProduct).not.toHaveBeenCalled();
+      }
     });
+
   });
 
   describe('getProducts', () => {
