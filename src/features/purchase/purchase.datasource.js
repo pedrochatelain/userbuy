@@ -46,7 +46,6 @@ async function deletePurchase(idPurchase) {
       const purchase = await getPurchasesCollection().findOne({_id: ObjectId.createFromHexString(idPurchase)})
       await datasourceUser.addToBalances(purchase.idUser, purchase.product.price, session);
       const deletedPurchase = await purchasesCollection.findOneAndDelete({ _id: ObjectId.createFromHexString(idPurchase) })
-      console.log(deletedPurchase)
       await session.commitTransaction();
       return deletedPurchase
   } catch (error) {

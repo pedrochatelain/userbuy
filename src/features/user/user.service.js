@@ -38,7 +38,6 @@ async function editRoles(idUser, roles) {
         await datasource.updateUserRole(idUser, roles)
         return datasource.getUser(idUser)
     } catch (err) {
-        console.log(err)
         throw err
     }
 }

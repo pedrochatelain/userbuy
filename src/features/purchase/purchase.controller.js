@@ -24,7 +24,6 @@ const getPurchasesUser = async (req, res) => {
     try {
         res.status(200).json(await service.getPurchasesUser(idUser))
     } catch(err) {
-        console.log(err)
         res.status(500).json({error: "Error fetching user purchases"})
     }
 }
