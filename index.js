@@ -1,13 +1,10 @@
 const express = require('express');
 const app = express();
 const { connectDB } = require('./src/config/database.mongodb.js');
-const productsRoutes = require('./src/features/product/product.routes.js');
-const userRoutes = require('./src/features/user/user.routes.js');
-const purchaseRoutes = require('./src/features/purchase/purchase.routes.js');
-const loginRoutes = require('./src/features/login/login.routes.js');
 const cors = require('cors');
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./src/docs/swagger.js");
+const { registerRoutes } = require('./src/config/routes');
 
 // Swagger setup
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -31,15 +28,7 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-// Basic route
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.use(productsRoutes)
-app.use(userRoutes)
-app.use(purchaseRoutes)
-app.use(loginRoutes)
+registerRoutes(app)
 
 require('dotenv').config();
 
