@@ -2,12 +2,11 @@ const express = require('express');
 const app = express();
 const { connectDB } = require('./src/config/database.mongodb.js');
 const cors = require('cors');
-const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./src/docs/swagger.js");
 const { registerRoutes } = require('./src/config/routes');
+const { setupSwagger } = require('./src/config/swagger');
 
 // Swagger setup
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+setupSwagger(app)
 
 // Middleware to parse JSON
 app.use(express.json());
