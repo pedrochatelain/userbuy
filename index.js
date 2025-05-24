@@ -4,6 +4,8 @@ const { connectDB } = require('./src/config/database.mongodb.js');
 const cors = require('cors');
 const { registerRoutes } = require('./src/config/routes');
 const { setupSwagger } = require('./src/config/swagger');
+const { syntaxErrorHandler } = require('./src/middlewares/handleSyntaxError.js');
+
 
 // Swagger setup
 setupSwagger(app)
@@ -11,21 +13,11 @@ setupSwagger(app)
 // Middleware to parse JSON
 app.use(express.json());
 
+// Error-handling middleware
+app.use(syntaxErrorHandler);
+
 // Enable CORS
 app.use(cors());
-
-// Error-handling middleware
-app.use((err, req, res, next) => {
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    // This handles body-parser JSON parsing errors
-    return res.status(400).json({
-      error: 'Invalid JSON syntax.',
-      details: err.message,
-    });
-  }
-  // Pass to the next error handler
-  next(err);
-});
 
 registerRoutes(app)
 
