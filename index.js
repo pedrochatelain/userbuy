@@ -1,4 +1,4 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
 const { registerRoutes } = require('./src/config/routes');
@@ -7,6 +7,9 @@ const { setupSwagger } = require('./src/config/swagger');
 const { startServer } = require('./src/config/server')
 
 const app = express();
+
+// Load environment variables from a .env file into process.env
+dotenv.config()
 
 // Middleware
 app.use(express.json());
