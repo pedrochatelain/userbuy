@@ -8,7 +8,10 @@ const {
 } = require('../user.service');
 const datasource = require('../user.datasource');
 const { UserNotFound } = require('../../../errors/customErrors');
+const hashPassword = require('../../../utils/hashPassword')
+const userService = require('../user.service');
 
+jest.mock('../../../utils/hashPassword');
 jest.mock('bcryptjs');
 jest.mock('../user.datasource');
 
@@ -18,49 +21,66 @@ describe('User Service', () => {
     });
 
     describe('getUsers', () => {
-        it('should fetch all users from the collection', async () => {
+        it('should fetch all users from the datasource', async () => {
             const users = [{ username: 'user1' }, { username: 'user2' }];
-            datasource.getUsersCollection.mockReturnValue({
-                find: jest.fn().mockReturnValue({ toArray: jest.fn().mockResolvedValue(users) }),
-            });
+            datasource.getActiveUsers.mockResolvedValue(users); // Fix: Align with service implementation
 
             const result = await getUsers();
 
             expect(result).toEqual(users);
-            expect(datasource.getUsersCollection).toHaveBeenCalled();
+            expect(datasource.getActiveUsers).toHaveBeenCalled(); // Fix: Ensure correct mock verification
         });
     });
 
     describe('createUser', () => {
         it('should hash the password and create a user', async () => {
-            const user = { username: 'testuser', password: 'password123', role: 'admin' };
-            const hashedPassword = 'hashedPassword123';
-
-            bcrypt.hash.mockResolvedValue(hashedPassword);
-            const mockCollection = {
-                insertOne: jest.fn().mockResolvedValue({ insertedId: '123' }),
-                findOne: jest.fn().mockResolvedValue({ ...user, _id: '123', password: hashedPassword, role: 'ADMIN' }),
-            };
-            datasource.getUsersCollection.mockResolvedValue(mockCollection);
-
-            const result = await createUser(user);
-
-            expect(bcrypt.hash).toHaveBeenCalledWith('password123', 10);
-            expect(mockCollection.insertOne).toHaveBeenCalledWith({
+            // Arrange
+            const mockUser = {
                 username: 'testuser',
+                password: 'plainPassword123',
+                email: 'test@example.com',
+                role: 'admin'
+            };
+
+            const hashedPassword = 'hashedPassword123';
+            const expectedUser = {
+                ...mockUser,
                 password: hashedPassword,
-                role: 'ADMIN', // Updated to match the transformed role
-            });
-            expect(result).toEqual({ ...user, _id: '123', password: hashedPassword, role: 'ADMIN' });
+                role: 'ADMIN'
+            };
+
+            const createdUser = {
+                id: 1,
+                ...expectedUser,
+                createdAt: new Date()
+            };
+
+            // Mock the hashPassword function
+            hashPassword.mockResolvedValue(hashedPassword);
+            
+            // Mock the datasource createUser method
+            datasource.createUser.mockResolvedValue(createdUser);
+
+            // Act
+            const result = await userService.createUser(mockUser);
+
+            // Assert
+            expect(hashPassword).toHaveBeenCalledWith('plainPassword123');
+            expect(hashPassword).toHaveBeenCalledTimes(1);
+            
+            expect(datasource.createUser).toHaveBeenCalledWith(expectedUser);
+            expect(datasource.createUser).toHaveBeenCalledTimes(1);
+            
+            expect(result).toEqual(createdUser);
         });
 
-
         it('should return null if creation fails', async () => {
-            datasource.getUsersCollection.mockRejectedValue(new Error('DB error'));
+            datasource.createUser.mockRejectedValue(new Error('DB error')); // Fix: Align with actual error handling
 
             const result = await createUser({ username: 'testuser', password: 'password123' });
 
             expect(result).toBeNull();
+            expect(datasource.createUser).toHaveBeenCalled();
         });
     });
 
