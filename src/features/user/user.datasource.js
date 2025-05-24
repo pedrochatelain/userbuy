@@ -28,6 +28,12 @@ async function getUser(idUser) {
   }
 }
 
+async function createUser(user) {
+  const usersCollection = await getUsersCollection()
+  const result = await usersCollection.insertOne(user);
+  return { ...user, _id: result.insertedId };
+}
+
 async function getUserByUsername(username) {
   const usersCollection = getUsersCollection();
   try {
@@ -84,5 +90,6 @@ module.exports = {
   getUser,
   updateUserRole,
   addToBalances,
-  deleteUser
+  deleteUser,
+  createUser
 };
