@@ -6,6 +6,10 @@ function getUsersCollection() {
   return getDb().collection('users');
 }
 
+async function getActiveUsers() {
+  return await getUsersCollection().find({ isDeleted: { $ne: true } }).toArray()
+}
+
 async function getUser(idUser) {
   const usersCollection = getUsersCollection();
 
@@ -74,6 +78,7 @@ async function deleteUser(idUser) {
 
 module.exports = {
   getUsersCollection,
+  getActiveUsers,
   existsUser,
   getUserByUsername,
   getUser,

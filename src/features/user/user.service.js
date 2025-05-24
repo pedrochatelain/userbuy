@@ -3,7 +3,7 @@ const datasource = require('./user.datasource');
 const { UserNotFound } = require('../../errors/customErrors');
 
 async function getUsers() {
-    return await datasource.getUsersCollection().find().toArray();
+    return await datasource.getActiveUsers();
 }
 
 async function createUser(user) {
