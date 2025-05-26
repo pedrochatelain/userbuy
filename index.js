@@ -66,20 +66,20 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
     // Create a detailed prompt that leverages Gemini's vision capabilities
     const prompt = `
-        Analyze the uploaded image and the following product description.
-        Image: [The image is provided separately]
-        Product Description: "${productDescription}"
+    Analyze the uploaded image and the following text.
+    Image: [The image is provided separately]
+    Text: "${productDescription}"
 
-        Determine if the product description accurately aligns with the main theme, objects, or essence of the image.
-        Consider all visual elements in the image when making your judgment.
+    Determine if the provided text is relevant to or has a sensible connection with the content of the image.
+    Consider if the text makes sense as a label, category, or a related concept for what is shown in the image.
 
-        If the product description represents a reasonable interpretation of the image's main theme, respond with "true" followed by a detailed explanation.
-        Otherwise, respond with "false" and explain why it doesn't align, pointing out discrepancies or missing elements in the description compared to the image.
+    If the text is reasonably related to the image content, respond with "true" followed by an explanation.
+    Otherwise, respond with "false" and explain why there is no clear or sensible connection.
 
-        Your response should start with "true" or "false" followed by a space, then the explanation.
-        Example true response: "true This image shows a red apple, and the product description correctly states it's a fruit."
-        Example false response: "false The image clearly shows a cat, but the product description talks about a dog."
-    `;
+    Your response should start with "true" or "false" followed by a space, then the explanation.
+    Example true response: "true The image shows a dog, and the text 'pets' is a relevant category."
+    Example false response: "false The image shows a car, but the text talks about a type of fruit."
+`;
 
     const result = await model.generateContent([prompt, ...imageParts]);
     const response = await result.response;
