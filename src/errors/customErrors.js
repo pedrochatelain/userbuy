@@ -19,6 +19,12 @@ class ProductsNotFound extends CustomError {
     }
 }
 
+class ProductNotFound extends CustomError {
+    constructor(idProduct) {
+        super(`The product with id "${idProduct}" was not found`, 404);
+    }
+}
+
 class InsufficientFunds extends CustomError {
     constructor() {
         super("Insufficient funds", 402);
@@ -44,4 +50,19 @@ class ProductRejectedByAI extends CustomError {
     }  
 }
 
-module.exports = { UserNotFound, ProductsNotFound, InsufficientFunds, InvalidCredentials, DeletedUser, ProductRejectedByAI }
+class MismatchProductNameAndImage extends CustomError {
+    constructor(details) {
+        super("Product name does not match image", 400, details); // Call the parent constructor with the message
+    }  
+}
+
+module.exports = { 
+    UserNotFound, 
+    ProductsNotFound, 
+    InsufficientFunds, 
+    InvalidCredentials, 
+    DeletedUser, 
+    ProductRejectedByAI, 
+    ProductNotFound,
+    MismatchProductNameAndImage
+}
