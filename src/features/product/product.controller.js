@@ -11,6 +11,20 @@ const addProduct = async (req, res) => {
     res.status(err.statusCode).json({error: err.message, details: err})  }
 };
 
+const addImageProduct = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+    const result = await service.addImageProduct(req.params.idProduct, req.file)
+    res.status(200).json(result)
+  } catch (err) {
+    if ( ! err.statusCode)
+      err.statusCode = 500
+    res.status(err.statusCode).json(err)
+  }
+}
+
 const getProducts = async (req, res) => {
   try {
     const products = await service.getProducts(req.query)
@@ -45,4 +59,4 @@ const updateProduct = async (req, res) => {
   }
 }
 
-module.exports = { addProduct, getProducts, deleteProduct, updateProduct };
+module.exports = { addProduct, getProducts, deleteProduct, updateProduct, addImageProduct };

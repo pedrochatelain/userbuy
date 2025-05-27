@@ -2,8 +2,11 @@ const { GoogleGenAI } = require('@google/genai');
 const getPromptFromSecretFile = require('../../utils/getPromptFromSecretFile')
 
 const datasource = require('./product.datasource')
-const { ProductsNotFound, ProductRejectedByAI } = require('../../errors/customErrors'); 
+const { ProductsNotFound, ProductRejectedByAI, ProductNotFound, MismatchProductNameAndImage } = require('../../errors/customErrors'); 
 const isProduction = require('../../utils/isProduction');
+
+const uploadImageToCloudinary = require('../../utils/uploadImageToCloudinary');
+const validateImageDescription = require('../../utils/validateImageDescription');
 
 async function checkProductWithGoogleAI(product) {
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -35,7 +38,23 @@ async function checkProductWithGoogleAI(product) {
     }
 }
 
-
+async function addImageProduct(idProduct, image) {
+    const product = await datasource.getProductById(idProduct)
+    if (product == null)
+        throw new ProductNotFound(idProduct)
+    const descriptionAndImage = await validateImageDescription(product.name, image)
+    if (descriptionAndImage.match) {
+        const uploadImage = await uploadImageToCloudinary(image.buffer)
+        product.image = uploadImage.url
+        datasource.updateProduct(idProduct, product)
+        return {
+            message: "Image added successfully",
+            product
+        }
+    } else {
+        throw new MismatchProductNameAndImage(descriptionAndImage)
+    }
+}
 
 async function addProduct(product) {
     try {
@@ -81,4 +100,4 @@ async function updateProduct(idProduct, productUpdate) {
     }
 }
 
-module.exports = { addProduct, getProducts, deleteProduct, updateProduct }
+module.exports = { addProduct, getProducts, deleteProduct, updateProduct, addImageProduct }
