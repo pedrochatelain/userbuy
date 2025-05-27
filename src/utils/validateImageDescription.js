@@ -48,8 +48,7 @@ async function validateImageDescription(description, image) {
         const matchResult = sanitizedResponseText.startsWith("true");
         const explanation = sanitizedResponseText.replace(/^true|^false/, "").trim();
         return {
-            message: 'Image processed successfully by Gemini Vision',
-            description,
+            productName: description,
             geminiResponse: explanation,
             match: matchResult,
         };
