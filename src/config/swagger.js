@@ -67,6 +67,26 @@ const swaggerOptions = {
             },
           },
         },
+        ProductNotFound: {
+          description: "Error: Product Not Found",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  statusCode: {
+                    type: "number",
+                    example: 404
+                  },
+                  error: {
+                    type: "string",
+                    example: "The product with id \"foo\" was not found",
+                  },
+                },
+              },
+            },
+          },
+        },
         NotFound: {
           description: "Error: Not Found",
           content: {

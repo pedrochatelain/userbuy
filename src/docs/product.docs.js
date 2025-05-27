@@ -251,6 +251,105 @@ const productPaths = {
           403: { $ref: "#/components/responses/Forbidden" },
         },
       }
+    },
+    "/api/products/{idProduct}/images": {
+      post: {
+        summary: "Upload a product image",
+        tags: ["Products"],
+        parameters: [
+          {
+            name: "idProduct",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+            description: "ID of the product",
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "multipart/form-data": {
+              schema: {
+                type: "object",
+                properties: {
+                  "image": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: "Image successfully added",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string", example: "Image added successfully" },
+                    product: {
+                      type: "object",
+                      properties: {
+                        _id: { type: "string", example: "681e010c2833643d5e98dccb" },
+                        category: { type: "string", example: "foo" },
+                        name: { type: "string", example: "bar" },
+                        price: { type: "number", example: 100 },
+                        stock_quantity: { type: "integer", example: 4 },
+                        currency: { type: "string", example: "USD" },
+                        image: { type: "string", example: "http://yourimage.com/yourimage" },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            description: "Error: Bad Request",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    error: { type: "string" },
+                  },
+                },
+                examples: {
+                  mismatchProductNameAndImage: {
+                    summary: "Mismatch product name and image",
+                    value: { 
+                      statusCode: 400,
+                      error: "Product name does not match image",
+                      details: {
+                        productName: "foo",
+                        geminiResponse: "bar",
+                        match: false
+                      },
+                    },
+                  },
+                },
+              },
+            }
+          },
+          500: {
+            description: "Error: Internal Server Error",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    error: {
+                      type: "string",
+                      example: "getaddrinfo ENOTFOUND"
+                    },
+                  },
+                },
+              },
+            },
+          },
+          404: { $ref: "#/components/responses/ProductNotFound" },
+        },
+      },
     }
   },
 };
