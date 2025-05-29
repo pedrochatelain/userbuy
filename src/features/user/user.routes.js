@@ -25,6 +25,14 @@ router.patch(
   userController.editRoles
 );
 
+// Add address
+router.post(
+  '/api/users/:idUser/address',
+  validateObjectId('idUser'),
+  validateUserAccess,
+  userController.addAddress
+);
+
 // PATCH /api/users/:idUser/balances
 router.patch(
   '/api/users/:idUser/balances',

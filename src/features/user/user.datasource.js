@@ -28,6 +28,31 @@ async function getUser(idUser) {
   }
 }
 
+async function update(id, data) {
+  const usersCollection = getUsersCollection();
+  // Validate the ID
+  if (!ObjectId.isValid(id)) {
+    throw new Error("Invalid ID format");
+  }
+  // Convert ID to ObjectId
+  const documentID = new ObjectId(id);
+  try {
+    // Perform the update operation
+    const result = await usersCollection.updateOne(
+      { _id: documentID }, // Filter
+      { $set: data } // Update
+    );
+    // Handle case where no document is matched
+    if (result.matchedCount === 0) {
+      throw new UserNotFound();
+    }
+    // Return the updated document (optional)
+    return await usersCollection.findOne({ _id: documentID });
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function createUser(user) {
   const usersCollection = await getUsersCollection()
   const result = await usersCollection.insertOne(user);
@@ -91,5 +116,6 @@ module.exports = {
   updateUserRole,
   addToBalances,
   deleteUser,
-  createUser
+  createUser,
+  update
 };

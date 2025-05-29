@@ -50,4 +50,15 @@ async function deleteUser(idUser) {
     }
 }
 
-module.exports = { createUser, getUsers, editRoles, addToBalances, deleteUser }
+async function addAddress(idUser, address) {
+    try {
+        const user = await datasource.getUser(idUser)
+        user.address = address
+        await datasource.update(idUser, user)
+        return user
+    } catch (err) {
+        throw err
+    }
+}
+
+module.exports = { createUser, getUsers, editRoles, addToBalances, deleteUser, addAddress }

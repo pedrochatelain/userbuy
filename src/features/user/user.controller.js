@@ -54,6 +54,17 @@ const addToBalances = async (req, res) => {
     }
 }
 
+const addAddress = async (req, res) => {
+    try {
+        const response = await service.addAddress(req.params.idUser, req.body)
+        res.status(200).json({message: "Address added successfully", user: response})
+    } catch (err) {
+        if ( ! err.statusCode)
+            err.statusCode = 500
+        res.status(err.statusCode).json(err)
+    }
+}
+
 const deleteUser = async (req, res) => {
     try {
         const idUser = req.params.idUser
@@ -67,4 +78,4 @@ const deleteUser = async (req, res) => {
 
 }
 
-module.exports = { createUser, getUsers, editRoles, addToBalances, deleteUser };
+module.exports = { createUser, getUsers, editRoles, addToBalances, deleteUser, addAddress };
