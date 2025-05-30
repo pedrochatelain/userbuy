@@ -1,6 +1,7 @@
 const datasource = require('./user.datasource');
 const { UserNotFound } = require('../../errors/customErrors');
-const hashPassword = require('../../utils/hashPassword')
+const hashPassword = require('../../utils/hashPassword');
+const validateAddressWithAI = require('../../utils/validateAddress');
 
 async function getUsers() {
     return await datasource.getActiveUsers();
@@ -54,7 +55,11 @@ async function addAddress(idUser, address) {
     try {
         const user = await datasource.getUser(idUser)
         user.address = address
-        await datasource.update(idUser, user)
+        const addressValidation = await validateAddressWithAI(address) 
+        if (addressValidation.isValid)
+            await datasource.update(idUser, user)
+        else
+            throw new Error(addressValidation.explanation)
         return user
     } catch (err) {
         throw err

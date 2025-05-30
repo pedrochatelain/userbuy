@@ -61,7 +61,7 @@ const addAddress = async (req, res) => {
     } catch (err) {
         if ( ! err.statusCode)
             err.statusCode = 500
-        res.status(err.statusCode).json(err)
+        res.status(err.statusCode).json(err.message)
     }
 }
 
