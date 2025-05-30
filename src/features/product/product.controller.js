@@ -8,7 +8,7 @@ const addProduct = async (req, res) => {
   } catch (err) {
     if ( ! err.statusCode)
       err.statusCode = 500
-    res.status(err.statusCode).json({error: err.message, details: err})  }
+    res.status(err.statusCode).json(err)  }
 };
 
 const addImageProduct = async (req, res) => {
