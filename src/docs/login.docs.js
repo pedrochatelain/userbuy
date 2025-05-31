@@ -77,6 +77,80 @@ const loginPath = {
         },
       },
     },
+    "/api/logout": {
+      post: {
+        summary: "Logout",
+        description: "Add user JWT Token to blacklist",
+        tags: ["Login"],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  token: { type: "string", example: "your_jwt_token" },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: { 
+            description: "User logged out successfully",
+            content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string", example: "User logged out successfully" },
+                      blacklistedToken: { type: "string", example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MWJkYTFkZTViNDQwZTNjYmZhMGQ4ZiIsInVzZXJuYW1lIjoicnIiLCJpYXQiOjE3NDY4OTA1ODMsImV4cCI6MTc0Njg5NDE4M30.zuVwg9s805BiTKbFALDuyjjH3rossudLqE74bsWtwBf"},
+                    },
+                  },
+                },
+            },
+          },
+          409: { 
+            description: "Token already blacklisted", 
+            content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      statusCode: { type: "number", example: 409 },
+                      error: { type: "string", example: "Token already blacklisted" },
+                    },
+                  },
+                },
+            },
+          },
+          500: {
+            description: "JWT malformed",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    name: {
+                      type: "string",
+                      example: "JsonWebTokenError",
+                    },
+                    message: {
+                      type: "string",
+                      example: "invalid signature",
+                    },
+                    statusCode: {
+                      type: "number",
+                      example: 500,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   };
   
   module.exports = loginPath;
