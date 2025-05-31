@@ -2,6 +2,7 @@ const { getUserByUsername } = require('../user/user.datasource')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { UserNotFound, InvalidCredentials, DeletedUser } = require('../../errors/customErrors')
+const datasource = require('./login.datasource')
 
 async function login(user) {
     const storedUser = await getUserByUsername(user.username)
@@ -22,6 +23,15 @@ async function login(user) {
     }
 }
 
+async function logout(token) {
+    try {
+        const result = await datasource.addToBlacklist(token)
+        return result.token
+    } catch (err) {
+        throw err
+    }
+}
+
 function generateToken(user) {
     const SECRET_KEY = process.env.JWT_SECRET;
     const payload = {
@@ -39,4 +49,4 @@ async function match(password, storedHashedPassword) {
     return await bcrypt.compare(password, storedHashedPassword);
 }
 
-module.exports = { login }
+module.exports = { login, logout }
