@@ -19,7 +19,7 @@ const logout = async (req, res) => {
     } catch (err) {
         if ( ! err.statusCode)
             err.statusCode = 500
-        res.status(err.statusCode).json({err, message: err.message})
+        res.status(err.statusCode).json(err)
     }
 }
 

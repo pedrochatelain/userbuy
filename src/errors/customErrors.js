@@ -43,6 +43,12 @@ class DeletedUser extends CustomError {
     }
 }
 
+class TokenAlreadyBlacklisted extends CustomError {
+    constructor() {
+        super("Token already blacklisted", 409);
+    }
+}
+
 class ProductRejectedByAI extends CustomError {
     constructor(issues) {
         super("Product rejected by AI", 400); // Call the parent constructor with the message
@@ -64,5 +70,6 @@ module.exports = {
     DeletedUser, 
     ProductRejectedByAI, 
     ProductNotFound,
-    MismatchProductNameAndImage
+    MismatchProductNameAndImage,
+    TokenAlreadyBlacklisted
 }
