@@ -2,7 +2,7 @@ const { verifyToken } = require('../utils/auth.utils');
 
 module.exports = (req, res, next) => {
   try {
-    const decodedToken = verifyToken(req);
+    const decodedToken = verifyToken(req.headers.authorization?.split(' ')[1]); // Assuming token is in 'Bearer <token>' format
     const { id: idUserFromToken } = decodedToken;
 
     if (idUserFromToken !== req.params.idUser) {

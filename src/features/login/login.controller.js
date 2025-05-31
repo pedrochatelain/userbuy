@@ -12,8 +12,9 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        verifyToken(req)
-        const blacklistedToken = await service.logout(req.body.token)
+        const token = req.body.token
+        verifyToken(token)
+        const blacklistedToken = await service.logout(token)
         res.status(200).json({ message: "User logged out successfully", blacklistedToken})            
     } catch (err) {
         if ( ! err.statusCode)
