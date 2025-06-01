@@ -1,12 +1,13 @@
 const jwt = require('jsonwebtoken');
-const loginService = require('../features/login/login.service')
+const loginService = require('../features/login/login.service');
+const { TokenAlreadyBlacklisted } = require('../errors/customErrors');
 
 async function verifyToken(token) {
   if (!token) {
     throw new Error('Access token is missing');
   }
   if (await loginService.isBlacklisted(token)) {
-    throw new Error("Token is blacklisted")
+    throw new TokenAlreadyBlacklisted()
   }
   return jwt.verify(token, process.env.JWT_SECRET); // Replace with your JWT secret
 }
