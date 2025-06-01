@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
-const ROLES = require('../config/roles')
+const ROLES = require('../config/roles');
+const { verifyToken } = require('../utils/auth.utils');
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1]; // Assuming token is in 'Bearer <token>' format
 
   if (!token) {
@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Replace with your JWT secret
+    const decoded = await verifyToken(token)
     if (decoded.role !== ROLES.ADMIN) {
       return res.status(403).json({ error: 'Forbidden: You do not have permission to perform this action' });
     }
