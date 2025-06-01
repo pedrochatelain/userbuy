@@ -18,6 +18,12 @@ async function addToBlacklist(token) {
     }
 }
 
+async function getBlacklistedToken(token) {
+    const blacklistedTokens = getBlacklistedTokens()
+    return await blacklistedTokens.findOne({ _id: token })
+}
+
 module.exports = {
-    addToBlacklist
+    addToBlacklist,
+    getBlacklistedToken
 };

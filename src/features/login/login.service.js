@@ -23,6 +23,13 @@ async function login(user) {
     }
 }
 
+async function isBlacklisted(token) {
+    const blacklistedToken = await datasource.getBlacklistedToken(token)
+    console.log(blacklistedToken)
+    console.log(blacklistedToken != null)
+    return (blacklistedToken != null)
+}
+
 async function logout(token) {
     try {
         const result = await datasource.addToBlacklist(token)
@@ -49,4 +56,4 @@ async function match(password, storedHashedPassword) {
     return await bcrypt.compare(password, storedHashedPassword);
 }
 
-module.exports = { login, logout }
+module.exports = { login, logout, isBlacklisted }
