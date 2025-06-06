@@ -110,7 +110,7 @@ async function getBalances(idUser) {
     );
 
     // Check if the 'balances' field exists
-    if (user && user.balances) {
+    if (user && 'balances' in user) {
       return user.balances;
     }
     
