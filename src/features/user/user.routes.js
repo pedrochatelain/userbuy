@@ -26,6 +26,13 @@ router.patch(
   userController.editRoles
 );
 
+// Get user balances
+router.get(
+  '/api/users/:idUser/balances',
+  validateUserAccess,
+  userController.getBalances
+);
+
 // Add address
 router.post(
   '/api/users/:idUser/address',

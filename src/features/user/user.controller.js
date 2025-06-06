@@ -54,6 +54,18 @@ const addToBalances = async (req, res) => {
     }
 }
 
+const getBalances = async (req, res) => {
+    try {
+        const idUser = req.params.idUser
+        const response = await service.getBalances(idUser)
+        res.status(200).json(response)
+    } catch (err) {
+        if ( ! err.statusCode)
+            err.statusCode = 500
+        res.status(err.statusCode).json({error: err.message})
+    }
+}
+
 const addAddress = async (req, res) => {
     try {
         const response = await service.addAddress(req.params.idUser, req.body)
@@ -78,4 +90,4 @@ const deleteUser = async (req, res) => {
 
 }
 
-module.exports = { createUser, getUsers, editRoles, addToBalances, deleteUser, addAddress };
+module.exports = { createUser, getUsers, editRoles, addToBalances, deleteUser, addAddress, getBalances };

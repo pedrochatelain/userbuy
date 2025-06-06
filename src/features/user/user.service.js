@@ -40,6 +40,18 @@ async function addToBalances(idUser, amount) {
     }
 }
 
+async function getBalances(idUser) {
+    try {
+        const balances = await datasource.getBalances(idUser)
+        return { 
+            idUser,
+            balances 
+        }
+    } catch (err) {
+        throw err
+    }
+}
+
 async function deleteUser(idUser) {
     try {
         if ( ! await datasource.existsUser(idUser)) {
@@ -66,4 +78,4 @@ async function addAddress(idUser, address) {
     }
 }
 
-module.exports = { createUser, getUsers, editRoles, addToBalances, deleteUser, addAddress }
+module.exports = { createUser, getUsers, editRoles, addToBalances, deleteUser, addAddress, getBalances }

@@ -99,6 +99,28 @@ async function addToBalances(idUser, amount, session = null) {
   }
 }
 
+async function getBalances(idUser) {
+  try {
+    const usersCollection = getUsersCollection();
+    
+    // Use projection to only include the 'balances' field in the result
+    const user = await usersCollection.findOne(
+      { _id: new ObjectId(idUser) }, // Query to find the user by ID
+      { projection: { balances: 1 } } // Only include 'balances' in the result
+    );
+
+    // Check if the 'balances' field exists
+    if (user && user.balances) {
+      return user.balances;
+    }
+    
+    // Return null or an appropriate value if 'balances' does not exist
+    return null;
+  } catch (err) {
+    throw err; // Re-throw the error for the caller to handle
+  }
+}
+
 async function deleteUser(idUser) {
   return await getUsersCollection().findOneAndUpdate(
     { _id: new ObjectId(idUser) },
@@ -117,5 +139,6 @@ module.exports = {
   addToBalances,
   deleteUser,
   createUser,
-  update
+  update,
+  getBalances
 };
