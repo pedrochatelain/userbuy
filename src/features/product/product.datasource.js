@@ -29,13 +29,16 @@ async function updateProduct(idProduct, productUpdate) {
 
 async function getProducts(queryParams) {
   const query = {};
-    for (const key in queryParams) {
-        if (queryParams[key]) {
-            query[key] = isNaN(queryParams[key]) ? queryParams[key] : parseFloat(queryParams[key]);
-        }
+  for (const key in queryParams) {
+    if (queryParams[key]) {
+      // Use $regex for partial, case-insensitive matching for string fields
+      query[key] = isNaN(queryParams[key])
+        ? { $regex: queryParams[key], $options: 'i' } // 'i' for case-insensitive
+        : parseFloat(queryParams[key]);
     }
-    // If query is empty, find({}) fetches all documents
-    return getProductsCollection().find(query).toArray();
+  }
+  // If query is empty, find({}) fetches all documents
+  return getProductsCollection().find(query).toArray();
 }
 
 async function deleteProduct(idProduct) {
