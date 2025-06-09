@@ -61,7 +61,11 @@ async function getPurchases() {
 }
 
 async function getPurchasesUser(idUser) {
-  return getPurchasesCollection().find({idUser: new ObjectId(idUser)}).toArray()
+  const purchasesCollection = getPurchasesCollection();
+  return purchasesCollection
+    .find({ idUser: new ObjectId(idUser) })
+    .sort({ purchaseDate: -1 }) // -1 indicates descending order
+    .toArray();
 }
 
 async function getPurchase(idPurchase) {
