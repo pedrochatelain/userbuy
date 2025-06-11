@@ -19,6 +19,7 @@ const addImageProduct = async (req, res) => {
     const result = await service.addImageProduct(req.params.idProduct, req.file)
     res.status(200).json(result)
   } catch (err) {
+    console.log(err)
     if ( ! err.statusCode)
       err.statusCode = 500
     res.status(err.statusCode).json(err)
