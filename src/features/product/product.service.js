@@ -7,21 +7,26 @@ const uploadImageToCloudinary = require('../../utils/uploadImageToCloudinary');
 const validateImageDescription = require('../../utils/validateImageDescription');
 
 async function addImageProduct(idProduct, image) {
-    const product = await datasource.getProductById(idProduct)
-    if (product == null)
-        throw new ProductNotFound(idProduct)
-    const descriptionAndImage = await validateImageDescription(product.name, image)
-    if (descriptionAndImage.match) {
-        const uploadImage = await uploadImageToCloudinary(image.buffer)
-        product.image = uploadImage.url
-        datasource.updateProduct(idProduct, product)
-        return {
-            message: "Image added successfully",
-            product
+    try {
+        const product = await datasource.getProductById(idProduct)
+        if (product == null)
+            throw new ProductNotFound(idProduct)
+        const descriptionAndImage = await validateImageDescription(product.name, image)
+        if (descriptionAndImage.match) {
+            const uploadImage = await uploadImageToCloudinary(image.buffer)
+            product.image = uploadImage.url
+            datasource.updateProduct(idProduct, product)
+            return {
+                message: "Image added successfully",
+                product
+            }
+        } else {
+            throw new MismatchProductNameAndImage(descriptionAndImage)
         }
-    } else {
-        throw new MismatchProductNameAndImage(descriptionAndImage)
+    } catch (err) {
+        throw err
     }
+    
 }
 
 async function addProduct(product) {
