@@ -22,19 +22,19 @@ async function validateImageDescription(description, image) {
         
         // Create a detailed prompt that leverages Gemini's vision capabilities
         const prompt = `
-    Analyze the uploaded image and the following text.
-    Image: [The image is provided separately]
-    Text: "${description}"
+          Analyze the uploaded image and the following text.
+          Image: [The image is provided separately]
+          Text: "${description}"
 
-    Determine if the text reasonably describes or refers to the content of the image. 
-    The text does not need to provide a full description but should be accurate and relevant to what is depicted in the image.
-    Consider whether the text could reasonably be used as a label, identifier, or reference for the image.
+          Determine if the text accurately describes or refers to the content of the image. 
+          Focus on the most straightforward and visually relevant interpretation of the text in the context of the image. 
+          Avoid unrelated interpretations or alternative meanings of the text that are not supported by the visual content.
 
-    If the text accurately matches or refers to the image, respond with "true" followed by an explanation.
-    If the text does not match or is unrelated to the image, respond with "false" and explain why there is no match.
+          If the text matches or reasonably refers to the image content, respond with "true" followed by an explanation.
+          If the text does not match or is unrelated to the image, respond with "false" and explain why there is no match.
 
-    Your response should start with "true" or "false" followed by a space, then the explanation.
-`;
+          Your response should start with "true" or "false" followed by a space, then the explanation.
+      `;
 
         
         const result = await model.generateContent([prompt, ...imageParts]);
