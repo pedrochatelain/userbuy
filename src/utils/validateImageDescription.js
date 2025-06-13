@@ -22,12 +22,14 @@ async function validateImageDescription(description, image) {
         
         // Create a detailed prompt that leverages Gemini's vision capabilities
         const prompt = `
-            Analyze the uploaded image and the following text.
+            Analyze the uploaded image and the following text, which describes a product.
             Image: [The image is provided separately]
             Text: "${description}"
             
-            Determine if the provided text is relevant to or has a sensible connection with the content of the image.
-            Consider if the text makes sense as a label, category, or a related concept for what is shown in the image.
+            Determine if the provided text is relevant to or has a sensible connection with the content of the image, considering the text as a potential label, category, or related concept for the product depicted in the image.
+            
+            **Prioritize the most common or direct interpretation of the text as it relates to a product or object visible in the image.**
+            **If a word in the text has multiple meanings, consider the meaning that best fits a typical product description or category for the content of the image.**
             
             If the text is reasonably related to the image content, respond with "true" followed by an explanation.
             Otherwise, respond with "false" and explain why there is no clear or sensible connection.
