@@ -61,6 +61,14 @@ async function deleteProduct(idProduct) {
     }
 }
 
+async function getProduct(idProduct) {
+    try {
+        return await datasource.getProductById(idProduct)
+    } catch (err) {
+        throw err
+    }
+}
+
 async function updateProduct(idProduct, productUpdate) {
     try {
         const updatedProduct = await datasource.updateProduct(idProduct, productUpdate)
@@ -73,4 +81,11 @@ async function updateProduct(idProduct, productUpdate) {
     }
 }
 
-module.exports = { addProduct, getProducts, deleteProduct, updateProduct, addImageProduct }
+module.exports = { 
+    addProduct,
+    getProducts,
+    deleteProduct,
+    updateProduct,
+    addImageProduct,
+    getProduct
+}

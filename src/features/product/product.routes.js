@@ -18,6 +18,9 @@ router.put('/api/products/:idProduct', authorizeAdmin, validateProductCreation, 
 // GET /api/products
 router.get('/api/products', validateQueryParamsProduct, productController.getProducts);
 
+// GET /api/products/:idProduct
+router.get('/api/products/:idProduct', productController.getProduct);
+
 // DELETE /api/products
 router.delete('/api/products/:id', authorizeAdmin, productController.deleteProduct);
 
