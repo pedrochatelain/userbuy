@@ -7,7 +7,7 @@ const validateQueryParamsProduct = require('../../middlewares/validateQueryParam
 const { uploadFile } = require('../../middlewares/uploadFile')
 
 // POST /api/products
-router.post('/api/products', authorizeAdmin, validateProductCreation, productController.addProduct);
+router.post('/api/products', authorizeAdmin, uploadFile('image'), productController.addProduct);
 
 // POST /api/products
 router.post('/api/products/:idProduct/images', uploadFile('image'), productController.addImageProduct);

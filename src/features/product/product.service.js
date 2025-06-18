@@ -31,9 +31,19 @@ async function addImageProduct(idProduct, image) {
 
 async function addProduct(product) {
     try {
-        if (isProduction())
+        if (isProduction()) {
+            if (product.image) {
+                const descriptionAndImage = await validateImageDescription(product.name, product.image)
+                if ( ! descriptionAndImage.match) {    
+                    throw new MismatchProductNameAndImage(descriptionAndImage)
+                }
+                const uploadImage = await uploadImageToCloudinary(product.image.buffer)
+                product.image = uploadImage.url
+            }
             await checkProductWithGoogleAI(product)
+        }
         await datasource.addProduct(product)
+        return product
     } catch(err) {
         throw err
     }

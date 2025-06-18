@@ -2,9 +2,16 @@ const service = require('./product.service'); // Adjust the path as needed
 
 const addProduct = async (req, res) => {
   try {
-    const product = req.body;
-    await service.addProduct(product);
-    res.status(200).json({ message: 'Product added successfully', product });
+    const product = {
+      name: req.body.name,
+      price: req.body.price,
+      category: req.body.category,
+      stock_quantity: req.body.stock_quantity,
+      currency: req.body.currency,
+      image: req.file ? req.file : null
+    };
+    const response = await service.addProduct(product);
+    res.status(200).json({ message: 'Product added successfully', product: response });
   } catch (err) {
     if ( ! err.statusCode)
       err.statusCode = 500

@@ -7,7 +7,7 @@ const productPaths = {
         requestBody: {
           required: true,
           content: {
-            "application/json": {
+            "multipart/form-data": {
               schema: {
                 type: "object",
                 properties: {
@@ -16,7 +16,7 @@ const productPaths = {
                   stock_quantity: { type: "integer", example: 8 },
                   price: { type: "number", example: 1023.45 },
                   currency: { type: "string", example: "USD" },
-                  image: { type: "string", example: "http://www.images.com/yourimage" },
+                  image: { type: "string", format: "binary", example: "myimage.jpg" },
                 },
               },
             },
