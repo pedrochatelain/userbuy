@@ -45,6 +45,9 @@ const addToBalances = async (req, res) => {
     try {
         const idUser = req.params.idUser
         const amount = req.body.amount
+        if (amount < 0) {
+            return res.status(400).json({error: "Amount must be a positive number"})
+        }
         const response = await service.addToBalances(idUser, amount)
         res.status(200).json({message: "User balances updated successfully", response})
     } catch (err) {
