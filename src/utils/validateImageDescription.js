@@ -26,15 +26,16 @@ async function validateImageDescription(description, image) {
           Image: [The image is provided separately]
           Text: "${description}"
 
-          Determine if the text accurately describes or refers to the content of the image. 
-          Focus on the most straightforward and visually relevant interpretation of the text in the context of the image. 
-          Avoid unrelated interpretations or alternative meanings of the text that are not supported by the visual content.
+          Strictly determine if the text **precisely** and **unambiguously** describes or refers to the **primary object(s)** in the image.
+          Focus exclusively on direct, visual correspondence. Do not infer, generalize, or consider alternative interpretations.
+          The text must clearly and specifically identify the main subject(s) of the image.
 
-          If the text matches or reasonably refers to the image content, respond with "true" followed by an explanation.
-          If the text does not match or is unrelated to the image, respond with "false" and explain why there is no match.
+          If the text **exactly matches or is a direct, accurate reference** to the primary visual content of the image, respond with "true" followed by a concise explanation of the match.
 
-          Your response should start with "true" or "false" followed by a space, then the explanation.
-      `;
+          If the text **does not specifically and unambiguously describe** the primary visual content of the image (even if it's a general category or unrelated), respond with "false", followed by an explanation of why there is no precise match, AND then provide a **concise, accurate recommendation** for what the text *should* be to match the image.
+
+          Your response should start with "true" or "false" followed by a space, then the explanation. If false, the recommendation should follow the explanation, clearly marked, e.g., "Recommendation: [recommended text]".
+        `;
 
         
         const result = await model.generateContent([prompt, ...imageParts]);
