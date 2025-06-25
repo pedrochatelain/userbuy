@@ -26,15 +26,15 @@ async function validateImageDescription(description, image) {
           Image: [The image is provided separately]
           Text: "${description}"
 
-          Strictly determine if the text **precisely** and **unambiguously** describes or refers to the **primary object(s)** in the image.
-          Focus exclusively on direct, visual correspondence. Do not infer, generalize, or consider alternative interpretations.
-          The text must clearly and specifically identify the main subject(s) of the image.
+          Strictly determine if the text **accurately identifies the core type or category** of the primary object(s) in the image.
+          Focus exclusively on whether the text correctly names **what the item(s) are**, rather than their quantity or specific variations.
+          Do not infer, generalize to broader categories, or consider alternative interpretations beyond the direct identification of the main subject(s).
 
-          If the text **exactly matches or is a direct, accurate reference** to the primary visual content of the image, respond with "true" followed by a concise explanation of the match.
+          If the text **correctly names the type or category** of the primary visual content of the image, respond with "true" followed by a concise explanation of the match. This includes instances where the text refers to a single item but multiple items of that type are present, or vice-versa, as long as the core identification is correct.
 
-          If the text **does not specifically and unambiguously describe** the primary visual content of the image (even if it's a general category or unrelated), respond with "false", followed by an explanation of why there is no precise match, AND then provide a **concise, accurate recommendation** for what the text *should* be to match the image.
+          If the text **does not accurately name the type or category** of the primary visual content of the image (e.g., it's a completely different item, or too broad/narrow for the visual content), respond with "false", followed by an explanation of why there is no precise type match, AND then provide a **Suggested Product Title** based solely on what the image depicts. This title should be concise and suitable for an e-commerce product listing.
 
-          Your response should start with "true" or "false" followed by a space, then the explanation. If false, the recommendation should follow the explanation, clearly marked, e.g., "Recommendation: [recommended text]".
+          Your response should start with "true" or "false" followed by a space, then the explanation. If false, the Suggested Product Title should follow the explanation, clearly marked, e.g., "Suggested Product Title: [suggested text]".
         `;
 
         
