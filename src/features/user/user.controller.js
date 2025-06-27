@@ -7,11 +7,13 @@ const createUser = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     const user = req.body;
-    const userCreation = await service.createUser(user)
-    if (userCreation) {
+    try {
+        await service.createUser(user)
         res.status(201).json({ message: 'User created successfully', user })
-    } else {
-        res.status(400).json({error: "couldn't create user"})
+    } catch(err) {
+        if ( ! err.statusCode)
+            err.statusCode = 500
+        res.status(err.statusCode).json({error: err.message})
     }
 }
 

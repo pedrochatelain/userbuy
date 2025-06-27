@@ -62,6 +62,13 @@ class MismatchProductNameAndImage extends CustomError {
     }  
 }
 
+class UserAlreadyExists extends CustomError {
+    constructor(username) {
+        super(`The username "${username}" is already taken`, 409);
+    }
+}
+
+
 module.exports = { 
     UserNotFound, 
     ProductsNotFound, 
@@ -71,5 +78,6 @@ module.exports = {
     ProductRejectedByAI, 
     ProductNotFound,
     MismatchProductNameAndImage,
-    TokenAlreadyBlacklisted
+    TokenAlreadyBlacklisted,
+    UserAlreadyExists
 }

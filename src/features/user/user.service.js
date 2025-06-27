@@ -1,5 +1,5 @@
 const datasource = require('./user.datasource');
-const { UserNotFound } = require('../../errors/customErrors');
+const { UserNotFound, UserAlreadyExists } = require('../../errors/customErrors');
 const hashPassword = require('../../utils/hashPassword');
 const validateAddressWithAI = require('../../utils/validateAddress');
 
@@ -13,9 +13,12 @@ async function createUser(user) {
         if (user.role) {
             user.role = user.role.toUpperCase()
         }
+        if (await datasource.getUserByUsername(user.username) != null) {
+            throw new UserAlreadyExists(user.username)
+        }
         return await datasource.createUser(user)
     } catch(error) {
-        return null
+        throw error
     }
 }
 
