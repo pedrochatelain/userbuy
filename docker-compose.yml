@@ -6,10 +6,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - .:/app   # Mount the current directory to /app in the container
+      - /app/node_modules # Prevent overwriting node_modules with your host folder
     environment:
       MONGO_URI: mongodb://db:27019
     depends_on:
       - db
+    command: npm run dev # Ensure this runs in development mode with live reload
 
   db:
     image: mongo:4

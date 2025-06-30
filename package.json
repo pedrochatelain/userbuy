@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon --legacy-watch index.js",
     "test": "jest --verbose",
     "start": "nodemon index.js"
   },
