@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --legacy-watch index.js",
+    "docker": "docker compose up app",
     "test": "jest --verbose",
     "start": "nodemon index.js"
   },
