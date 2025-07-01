@@ -28,7 +28,7 @@ async function updateProduct(idProduct, productUpdate) {
 }
 
 async function getProducts(queryParams) {
-  const query = {};
+  const query = { deleted: { $ne: true } }; // exclude deleted products
   for (const key in queryParams) {
     if (queryParams[key]) {
       // Use $regex for partial, case-insensitive matching for string fields
@@ -37,7 +37,6 @@ async function getProducts(queryParams) {
         : parseFloat(queryParams[key]);
     }
   }
-  // If query is empty, find({}) fetches all documents
   return getProductsCollection().find(query).toArray();
 }
 
