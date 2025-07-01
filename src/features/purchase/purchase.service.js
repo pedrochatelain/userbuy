@@ -1,12 +1,14 @@
 const datasourceUser = require('../user/user.datasource')
 const datasourceProduct = require('../product/product.datasource')
 const datasourcePurchase = require('./purchase.datasource')
-const { UserNotFound, ProductsNotFound, InsufficientFunds } = require('../../errors/customErrors')
+const { UserNotFound, ProductsNotFound, InsufficientFunds, ProductDeletedError } = require('../../errors/customErrors')
 
 async function addPurchase(purchase) {
     try {
         await validatePurchase(purchase)
         const product = await datasourceProduct.getProductById(purchase.idProduct)
+        if (product.deleted)
+            throw new ProductDeletedError()
         return await datasourcePurchase.purchase(purchase.idUser, product)
     } catch (err) {
         throw err

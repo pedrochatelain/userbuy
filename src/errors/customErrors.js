@@ -43,6 +43,12 @@ class DeletedUser extends CustomError {
     }
 }
 
+class ProductDeletedError extends CustomError {
+    constructor() {
+        super("Purchase cannot be completed because the product was deleted", 403);
+    }
+}
+
 class TokenAlreadyBlacklisted extends CustomError {
     constructor() {
         super("Token already blacklisted", 409);
@@ -79,5 +85,6 @@ module.exports = {
     ProductNotFound,
     MismatchProductNameAndImage,
     TokenAlreadyBlacklisted,
-    UserAlreadyExists
+    UserAlreadyExists,
+    ProductDeletedError
 }
