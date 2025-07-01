@@ -42,7 +42,11 @@ async function getProducts(queryParams) {
 }
 
 async function deleteProduct(idProduct) {
-  return await getProductsCollection().findOneAndDelete({ _id: ObjectId.createFromHexString(idProduct) });
+  try {
+    return await updateProduct(idProduct, {deleted: true})
+  } catch (err) {
+    throw err
+  }
 }
   
 async function getProductById(id) {

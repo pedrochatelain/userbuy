@@ -62,10 +62,7 @@ async function deleteProduct(idProduct) {
         const product = await datasource.getProductById(idProduct)
         if ( ! product)
             throw new ProductsNotFound(idProduct)
-        const deletedProduct = await datasource.deleteProduct(idProduct)
-        if ( ! deletedProduct) 
-            throw new ProductsNotFound(idProduct)
-        return deletedProduct
+        return await datasource.deleteProduct(idProduct)
     } catch (err) {
         throw err
     }
