@@ -2,7 +2,7 @@
 const datasource = require('./product.datasource')
 const { ProductsNotFound, ProductNotFound, MismatchProductNameAndImage } = require('../../errors/customErrors'); 
 const isProduction = require('../../utils/isProduction');
-const checkProductWithGoogleAI = require('../../utils/checkProductWithGoogleAI')
+const categorizeProductWithAI = require('../../utils/checkProductWithGoogleAI')
 const uploadImageToCloudinary = require('../../utils/uploadImageToCloudinary');
 const validateImageDescription = require('../../utils/validateImageDescription');
 
@@ -32,7 +32,8 @@ async function addImageProduct(idProduct, image) {
 async function addProduct(product) {
     try {
         if (isProduction()) {
-            await checkProductWithGoogleAI(product)
+            const response = await categorizeProductWithAI(product.name)
+            product.category = response.category
             if (product.image) {
                 const descriptionAndImage = await validateImageDescription(product.name, product.image)
                 if ( ! descriptionAndImage.match) {    
