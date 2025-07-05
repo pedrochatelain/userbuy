@@ -5,9 +5,7 @@ const addProduct = async (req, res) => {
     const product = {
       name: req.body.name,
       price: req.body.price,
-      category: req.body.category,
-      stock_quantity: req.body.stock_quantity,
-      currency: req.body.currency,
+      description: req.body.description,
       image: req.file ? req.file : null
     };
     const response = await service.addProduct(product);
