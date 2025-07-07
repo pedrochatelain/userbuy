@@ -74,6 +74,14 @@ class UserAlreadyExists extends CustomError {
     }
 }
 
+class ProtectedUserError extends CustomError {
+    constructor(user, error = "This user is protected and cannot be edited or deleted") {
+        super(error, 403);
+        this.user = user
+    }
+}
+
+
 
 module.exports = { 
     UserNotFound, 
@@ -86,5 +94,6 @@ module.exports = {
     MismatchProductNameAndImage,
     TokenAlreadyBlacklisted,
     UserAlreadyExists,
-    ProductDeletedError
+    ProductDeletedError,
+    ProtectedUserError
 }

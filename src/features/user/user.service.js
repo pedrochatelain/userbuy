@@ -1,5 +1,5 @@
 const datasource = require('./user.datasource');
-const { UserNotFound, UserAlreadyExists } = require('../../errors/customErrors');
+const { UserNotFound, UserAlreadyExists, ProtectedUserError } = require('../../errors/customErrors');
 const hashPassword = require('../../utils/hashPassword');
 const validateAddressWithAI = require('../../utils/validateAddress');
 
@@ -24,6 +24,9 @@ async function createUser(user) {
 
 async function editRoles(idUser, roles) {
     try {
+        const user = await datasource.getUser(idUser)
+        if (user.username === 'admin')
+            throw new ProtectedUserError(user)
         await datasource.updateUserRole(idUser, roles)
         return datasource.getUser(idUser)
     } catch (err) {
@@ -57,9 +60,11 @@ async function getBalances(idUser) {
 
 async function deleteUser(idUser) {
     try {
-        if ( ! await datasource.existsUser(idUser)) {
+        const user = await datasource.getUser(idUser)
+        if ( ! user)
             throw new UserNotFound()
-        }
+        if (user.username === 'admin')
+            throw new ProtectedUserError(user)
         return await datasource.deleteUser(idUser)
     } catch (err) {
         throw err

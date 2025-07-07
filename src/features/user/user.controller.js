@@ -39,7 +39,7 @@ const editRoles = async (req, res) => {
     } catch(err) {
         if ( ! err.statusCode)
             err.statusCode = 500
-        res.status(err.statusCode).json({error: err.message})
+        res.status(err.statusCode).json(err)
     }
 }
 
@@ -90,7 +90,7 @@ const deleteUser = async (req, res) => {
     } catch (err) {
         if ( ! err.statusCode)
             err.statusCode = 500
-        res.status(err.statusCode).json({error: err.message})
+        res.status(err.statusCode).json(err)
     }
 
 }
