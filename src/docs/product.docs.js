@@ -292,9 +292,9 @@ const productPaths = {
         },
       },
     },
-    "/api/products/{idProduct}/images": {
-      post: {
-        summary: "Upload a product image",
+    "/api/products/{idProduct}/image": {
+      patch: {
+        summary: "Update image of a product",
         tags: ["Products"],
         parameters: [
           {

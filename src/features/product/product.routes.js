@@ -9,8 +9,8 @@ const { uploadFile } = require('../../middlewares/uploadFile')
 // POST /api/products
 router.post('/api/products', authorizeAdmin, uploadFile('image'), productController.addProduct);
 
-// POST /api/products
-router.post('/api/products/:idProduct/images', uploadFile('image'), productController.addImageProduct);
+// Replace image of an existing product
+router.patch('/api/products/:idProduct/image', uploadFile('image'), productController.addImageProduct);
 
 // Update product
 router.put('/api/products/:idProduct', authorizeAdmin, validateProductCreation, productController.updateProduct);
