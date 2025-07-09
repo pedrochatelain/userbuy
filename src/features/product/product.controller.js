@@ -64,23 +64,10 @@ const deleteProduct = async (req, res) => {
   }
 }
 
-const updateProduct = async (req, res) => {
-  try {
-    const idProduct = req.params.idProduct
-    const result = await service.updateProduct(idProduct, req.body);
-    res.status(200).json({ message: 'Product updated successfully', product: result });
-  } catch (err) {
-    if ( ! err.statusCode)
-      err.statusCode = 500
-    res.status(err.statusCode).json({ error: err.message });
-  }
-}
-
 module.exports = { 
   addProduct,
   getProducts,
   deleteProduct,
-  updateProduct,
   addImageProduct,
   getProduct
 };

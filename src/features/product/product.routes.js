@@ -12,9 +12,6 @@ router.post('/api/products', authorizeAdmin, uploadFile('image'), productControl
 // Replace image of an existing product
 router.patch('/api/products/:idProduct/image', uploadFile('image'), productController.addImageProduct);
 
-// Update product
-router.put('/api/products/:idProduct', authorizeAdmin, validateProductCreation, productController.updateProduct);
-
 // GET /api/products
 router.get('/api/products', validateQueryParamsProduct, productController.getProducts);
 

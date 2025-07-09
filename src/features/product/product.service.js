@@ -77,23 +77,10 @@ async function getProduct(idProduct) {
     }
 }
 
-async function updateProduct(idProduct, productUpdate) {
-    try {
-        const updatedProduct = await datasource.updateProduct(idProduct, productUpdate)
-        if ( ! updatedProduct)
-            throw new ProductsNotFound(idProduct)
-        else
-            return updatedProduct
-    } catch (err) {
-        throw err
-    }
-}
-
 module.exports = { 
     addProduct,
     getProducts,
     deleteProduct,
-    updateProduct,
     addImageProduct,
     getProduct
 }
